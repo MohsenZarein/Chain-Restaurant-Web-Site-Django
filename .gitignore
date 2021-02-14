@@ -11,7 +11,7 @@ media
 # Unit test / coverage reports
 htmlcov/
 .tox/
-.nox/
+.n
 .coverage
 .coverage.*
 .cache
