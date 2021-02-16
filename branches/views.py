@@ -1,3 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response, get_object_or_404
+from django.http import HttpResponse
+from django.views import View
+from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_GET, require_POST
 
-# Create your views here.
+from core.models import Branch
+
+class BranchView(View):
+
+    @method_decorator(require_GET)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+
+    def get(self, request, branch_code):
+        branch = get_object_or_404(Branch, branch_code=branch_code)
+        context = {
+            'branch':branch
+        }
+        return render_to_response('branches/branch.html', context)
+        

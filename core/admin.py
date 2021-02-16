@@ -24,3 +24,6 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Customer)
 admin.site.register(models.Personnel)
+admin.site.register(models.CustomerPhoneNo)
+admin.site.register(models.PersonnelPhoneNo)
+admin.site.register(models.Branch)

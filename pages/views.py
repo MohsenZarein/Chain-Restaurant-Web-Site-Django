@@ -12,7 +12,7 @@ class IndexView(View):
         return super().dispatch(*args, **kwargs)
 
     def get(self, request):
-        return HttpResponse(status=200)
+        return render(request,'pages/index.html')
         
     
 
