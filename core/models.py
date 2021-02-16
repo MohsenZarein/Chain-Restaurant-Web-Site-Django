@@ -73,10 +73,29 @@ class Personnel(models.Model):
 class CustomerPhoneNo(models.Model):
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
     phone = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.phone
+    
 
 
 class PersonnelPhoneNo(models.Model):
     personnel = models.ForeignKey(Personnel,on_delete=models.CASCADE)
     phone = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.phone
+
+
+class Branch(models.Model):
+    branch_code = models.IntegerField(primary_key=True, unique=True)
+    phone = models.CharField(max_length=50)
+    personnel_count = models.IntegerField(default=0)
+    province = models.CharField(max_length=225)
+    city = models.CharField(max_length=225)
+    street = models.CharField(max_length=225)
+    alley = models.CharField(max_length=225)
+
+    def __str__(self):
+        return self.province + '-' + self.city
     
