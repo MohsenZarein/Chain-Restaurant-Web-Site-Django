@@ -159,4 +159,16 @@ class ModelTests(TestCase):
                     age=6,
                     salary=1000.25
                 )
-        
+
+    def test_branch_str(self):
+        """ Test the branch string representation """
+        branch = models.Branch.objects.create(
+            province='province',
+            city='city',
+            street='street',
+            alley='alley',
+            phone='+989127777777',
+            branch_code=12345678
+        )
+
+        self.assertEqual(str(branch), branch.province + '-' + branch.city)
