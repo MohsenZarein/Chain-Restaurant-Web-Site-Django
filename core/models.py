@@ -69,3 +69,14 @@ class Personnel(models.Model):
     def __str__(self):
         return self.user.email
        
+
+class CustomerPhoneNo(models.Model):
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    phone = models.CharField(max_length=50)
+
+
+class PersonnelPhoneNo(models.Model):
+    personnel = models.ForeignKey(Personnel,on_delete=models.CASCADE)
+    phone = models.CharField(max_length=50)
+
+    
