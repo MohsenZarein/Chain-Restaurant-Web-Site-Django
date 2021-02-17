@@ -5,34 +5,28 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% block stylesheets %}
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <!-- Custom -->
+    <!-- Custom 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <!--lightbox-->
-    <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">
-    <title>BT Real Estate {% block title %}{% endblock %}</title>
+    -->
+    {% endblock stylesheets %}
+
+    <title>Chain Restaurant {% block title %}{% endblock %}</title>
 </head>
 <body>
-    <!--top-->
-    {% include 'partials/_top.html' %}
-
-    <!--navbar-->
-    {% include 'partials/_navbar.html' %}
+    
 
     <!--dynamic content-->
     {% block content %}{% endblock %}
 
-    <!--footer-->
-    {% include 'partials/_footer.html' %}
+   
 
   <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'js/main.js' %}"></script>
-  <script src="{% static 'js/lightbox.min.js' %}"></script>
 
 </body>
 </html>
