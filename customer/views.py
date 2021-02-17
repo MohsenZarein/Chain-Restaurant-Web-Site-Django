@@ -39,6 +39,7 @@ class RegisterCustomerView(View):
                     email=email,
                     password=password1
                 )
+                user.save()
                 customer = Customer.objects.create(
                     user=user,
                     customer_id=int(str(uuid4().fields[-1])[:8]),
@@ -48,8 +49,9 @@ class RegisterCustomerView(View):
                     street=city,
                     alley=alley
                 )
-                #return redirect('login')
-                return HttpResponse('LOGING',status=200)
+                customer.save()
+                return redirect('login')
+                
             else:
                 return redirect('customer-register')
 
