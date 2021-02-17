@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
 from core.models import Customer
@@ -57,3 +58,16 @@ class RegisterCustomerView(View):
 
         else:
             return redirect('customer-register')
+
+
+
+class DashboardView(View):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+
+    def get(self, request):
+        return render(request, 'customer/dashboard.html')
+

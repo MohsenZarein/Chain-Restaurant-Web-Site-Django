@@ -28,7 +28,7 @@ class LoginTests(TestCase):
         user = create_user(**payload)
         url = '/login/'
         response = self.client.post(url,payload)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.assertTrue(user.is_authenticated)
     
     """

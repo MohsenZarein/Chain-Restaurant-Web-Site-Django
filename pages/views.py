@@ -46,9 +46,7 @@ class LoginView(View):
                 #return redirect('personnel-dashboard')
                 return HttpResponse(status=200)
             else:
-                #return redirect('customer-dashboard')
-                return HttpResponse(status=200)
-            
+                return redirect('customer-dashboard')            
         else:
             return redirect('login')
 

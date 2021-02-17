@@ -127,3 +127,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'chain_restaurant/static')]
 
 
 AUTH_USER_MODEL = 'core.User'
+
+
+LOGIN_URL='/login/'
+LOGIN_REDIRECT_URL='/login/'
