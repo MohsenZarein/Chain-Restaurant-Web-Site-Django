@@ -1,16 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-
+import os
+from uuid import uuid4
 
 def branch_upload_path_handler(instance, filename):
     """ Generate file path for new branch image """
+    extension = filename.split('.')[-1]
+    filename = f'{uuid4()}.{extension}'
     return os.path.join('branches/', filename)
+    
 
 
 
 
 class UserManager(BaseUserManager):
-1
+
     def create_user(self, email, password=None, **extra_fields):
         """ Create and saves a new user """
         if not email:
@@ -103,7 +107,7 @@ class Branch(models.Model):
     street = models.CharField(max_length=225)
     alley = models.CharField(max_length=225)
     image = models.ImageField(null=True, blank=True, upload_to=branch_upload_path_handler)
-    
+
     def __str__(self):
         return self.province + '-' + self.city
     

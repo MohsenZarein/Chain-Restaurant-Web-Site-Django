@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
+
     <main>
+
       <!-- COVER -->
       <div id="cover" class="cover carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -34,10 +37,8 @@
               src="https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2560/v1535322021/website-template-3/cover-homepage-1.jpg"
               alt="First slide">
             <div class="carousel-caption">
-              <h1 class="brand-title display-2 animated fadeInDown">GRECKO</h1>
-              <h4 class="brand-description animated fadeInDown">BAR &amp; RESTAURANT</h4>
-              <a class="mt-3 btn btn-light animated fadeInUp" href="#" role="button">BOOK NOW</a>
-            </div>
+              <h1 class="brand-title display-2 animated fadeInDown">A&M</h1>
+           </div>
           </div>
           <div class="dark-overlay carousel-item">
             <img
@@ -70,10 +71,10 @@
               src="https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2560/v1535322195/website-template-3/cover-homepage-2.jpg"
               alt="Second slide">
             <div class="carousel-caption">
-              <h1 class="brand-title display-2 animated fadeInDown">GRECKO</h1>
-              <h4 class="brand-description animated fadeInDown">BAR &amp; RESTAURANT</h4>
-              <a class="mt-3 btn btn-light animated fadeInUp" href="#" role="button">BOOK NOW</a>
-            </div>
+              <h1 class="brand-title display-2 animated fadeInDown">A&M</h1>
+<!--               <h4 class="brand-description animated fadeInDown">BAR &amp; RESTAURANT</h4>
+ --><!--               <a class="mt-3 btn btn-light animated fadeInUp" href="pages/reservations.html" role="button">BOOK NOW</a>
+ -->            </div>
           </div>
           <div class="dark-overlay carousel-item">
             <img
@@ -111,10 +112,8 @@
               alt="Third slide">
             <div class="container">
               <div class="carousel-caption">
-                <h1 class="brand-title display-2 animated fadeInDown">GRECKO</h1>
-                <h4 class="brand-description animated fadeInDown">BAR &amp; RESTAURANT</h4>
-                <a class="mt-3 btn btn-light animated fadeInUp" href="#" role="button">BOOK NOW</a>
-              </div>
+                <h1 class="brand-title display-2 animated fadeInDown">A&M</h1>
+             </div>
             </div>
           </div>
           <div class="dark-overlay carousel-item">
@@ -142,9 +141,7 @@
               alt="Fourth slide">
             <div class="container">
               <div class="carousel-caption">
-                <h1 class="brand-title display-2 animated fadeInDown">GRECKO</h1>
-                <h4 class="brand-description animated fadeInDown">BAR &amp; RESTAURANT</h4>
-                <a class="mt-3 btn btn-light animated fadeInUp" href="pages/reservations.html" role="button">BOOK NOW</a>
+                <h1 class="brand-title display-2 animated fadeInDown">A&M</h1>
               </div>
             </div>
           </div>
@@ -160,84 +157,32 @@
       </div>
 
 
-      <!-- MENU -->
-      <div class="homepage-menu container text-center">
-        <div class="row">
-          <div class="col-md-3 homepage-drinks">
-            <h3 class="special-title-2">شعبه سه</h3>
-            <div id="drinks">
-              <img 
-                data-src="https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_200/v1535885398/website-template-3/homepage-drinks.jpg" 
-                data-srcset="
-                  https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_200/v1535885398/website-template-3/homepage-drinks.jpg 1x, 
-                  https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_400/v1535885398/website-template-3/homepage-drinks.jpg 2x,
-                  https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_600/v1535885398/website-template-3/homepage-drinks.jpg 3x"
-                alt="Drinks Menu"
-                class="rounded-circle lazyload">
-              <p class="homepage-menu-description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam 
-                dolor neque, condimentum quis ante ac, imperdiet varius sapien. 
-                Maecenas commodo ante et odio varius, at placerat mi tristique. 
-              </p>
-              <a class="btn btn-outline-dark" href="pages/gallery-food.html" role="button">مشاهده شعبه </a>
+      {% if branches %}
+          <div class="homepage-menu container text-center">
+            <div class="row">
+              {% for branch in branches %}
+              <div class="col-md-3 homepage-drinks">
+              <div id="drinks">
+                  <img 
+                    data-src="{{branch.image.url}}" 
+                    alt="Drinks Menu"
+                    class="rounded-circle lazyload" style="width: 180px; height: 200px;">
+                  <p class="homepage-menu-description">
+                    {{branch.province}} - {{branch.city}} - {{branch.street}} - {{branch.alley}}
+                  </p>
+                  <a class="btn btn-outline-dark" href="{% url 'branch' branch.branch_code %}" role="button">مشاهده شعبه </a>
+                  <br><br>
+                  
+                </div>
+              </div>
+              {% endfor %}
             </div>
           </div>
-        </div>
-      </div>
-      
-      <!-- ABOUT US -->
-      <div class="homepage-about-us dark-overlay text-white">
-        <img
-          sizes="(max-width: 2560px) 100vw, 2560px"
-          data-srcset="
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_320/v1535893044/website-template-3/homepage-about-us.jpg 320w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_514/v1535893044/website-template-3/homepage-about-us.jpg 514w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_674/v1535893044/website-template-3/homepage-about-us.jpg 674w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_814/v1535893044/website-template-3/homepage-about-us.jpg 814w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_936/v1535893044/website-template-3/homepage-about-us.jpg 936w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1058/v1535893044/website-template-3/homepage-about-us.jpg 1058w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1174/v1535893044/website-template-3/homepage-about-us.jpg 1174w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1274/v1535893044/website-template-3/homepage-about-us.jpg 1274w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1377/v1535893044/website-template-3/homepage-about-us.jpg 1377w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1476/v1535893044/website-template-3/homepage-about-us.jpg 1476w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1574/v1535893044/website-template-3/homepage-about-us.jpg 1574w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1659/v1535893044/website-template-3/homepage-about-us.jpg 1659w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1740/v1535893044/website-template-3/homepage-about-us.jpg 1740w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1829/v1535893044/website-template-3/homepage-about-us.jpg 1829w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1909/v1535893044/website-template-3/homepage-about-us.jpg 1909w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1985/v1535893044/website-template-3/homepage-about-us.jpg 1985w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2064/v1535893044/website-template-3/homepage-about-us.jpg 2064w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2141/v1535893044/website-template-3/homepage-about-us.jpg 2141w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2213/v1535893044/website-template-3/homepage-about-us.jpg 2213w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2283/v1535893044/website-template-3/homepage-about-us.jpg 2283w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2350/v1535893044/website-template-3/homepage-about-us.jpg 2350w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2417/v1535893044/website-template-3/homepage-about-us.jpg 2417w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2486/v1535893044/website-template-3/homepage-about-us.jpg 2486w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2551/v1535893044/website-template-3/homepage-about-us.jpg 2551w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2554/v1535893044/website-template-3/homepage-about-us.jpg 2554w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2560/v1535893044/website-template-3/homepage-about-us.jpg 2560w"
-          data-src="https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2560/v1535893044/website-template-3/homepage-about-us.jpg"
-          alt=""
-          class="homepage-about-us-bg lazyload">
-        <div class="homepage-about-us-caption">
-          <h2 class="special-title-1">ABOUT US</h2>
-          <h3 class="special-title-2">Tradition &amp; Passion</h3>
-          <div id="about-description">
-            <p class="homepage-about-us-description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dolor 
-              neque, condimentum quis ante ac, imperdiet varius sapien. Maecenas 
-              commodo ante et odio varius, at placerat mi tristique. Etiam et neque 
-              et magna finibus vestibulum.
-            </p>
-            <a class="btn btn-outline-light" href="pages/about.html" role="button">OUR STORY</a>
-          </div>
-        </div>
-      </div>
-    </main>
+      {% else %}
+          <p>هیچ شعبه ای اضافه نشده است</p>
+      {% endif %}
 
+    </main>
     
-    <a id="back-to-top" class="back-to-top smooth-scroll" href="#top">
-      <i class="fa fa-long-arrow-up" aria-hidden="true"></i>
-    </a>
-    
+
 {% endblock content %}

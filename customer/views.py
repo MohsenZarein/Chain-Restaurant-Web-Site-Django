@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 
 from core.models import Customer
 
@@ -26,17 +27,18 @@ class RegisterCustomerView(View):
         email = request.POST['email']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
-        gender = request.POST['gender']
-        province = request.POST['province']
-        city = request.POST['city']
-        street = request.POST['street']
-        alley = request.POST['alley']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        phone = request.POST['phone']
+        
 
         if password1 == password2 :
 
             if not get_user_model().objects.filter(email=email).exists():
 
                 user = get_user_model().objects.create_user(
+                    first_name=first_name,
+                    last_name=last_name,
                     email=email,
                     password=password1
                 )
@@ -44,19 +46,17 @@ class RegisterCustomerView(View):
                 customer = Customer.objects.create(
                     user=user,
                     customer_id=int(str(uuid4().fields[-1])[:8]),
-                    gender=gender,
-                    province=province,
-                    city=city,
-                    street=city,
-                    alley=alley
                 )
                 customer.save()
+                messages.success(request, "ثبت نام با موفقیت انجام شد")
                 return redirect('login')
                 
             else:
+                messages.error(request, "این ایمیل قبلا ثبت شده است")
                 return redirect('customer-register')
 
         else:
+            messages.error(request, "پسورد ها یکسان نیستند")
             return redirect('customer-register')
 
 
