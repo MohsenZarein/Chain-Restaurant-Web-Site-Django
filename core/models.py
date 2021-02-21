@@ -136,11 +136,13 @@ class Table(models.Model):
 
 class OnlineOrder(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    deliverer = models.ForeignKey(Personnel, on_delete=models.CASCADE)
+    deliverer = models.ForeignKey(Personnel, on_delete=models.CASCADE, null=True, blank=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
-    pay_code = models.CharField(max_length=255, blank=True, null=False)
+    pay_code = models.CharField(max_length=255, blank=True, null=False, default='0')
     count = models.IntegerField()
+    destination_address = models.TextField(max_length=500, null=True, blank=True)
+    is_delivered = models.BooleanField(default=False)
 
     def __str__(self):
         return self.pay_code
