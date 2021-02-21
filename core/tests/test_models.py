@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core import exceptions
 
 from core import models
+from uuid import uuid4
 
 
 
@@ -161,7 +162,9 @@ class ModelTests(TestCase):
                 )
 
     def test_branch_str(self):
-        """ Test the branch string representation """
+        """ Test the branch string representation
+            (creating a branch succussfuly)
+        """
         branch = models.Branch.objects.create(
             province='province',
             city='city',
@@ -172,3 +175,82 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(branch), branch.province + '-' + branch.city)
+    
+
+    def test_food_str(self):
+        """ Test the food string representaion 
+            (creating a food succussfuly)
+        """
+        food = models.Food.objects.create(
+            name='کباب کوبیده',
+            price=30000,
+            description='کباب کوبیده  به همراه مخلفات'
+        )
+        
+        self.assertEqual(str(food), food.name)
+
+
+    def test_table_str(self):
+        """ Test the table string representaion
+            (creating a table succussfuly)
+        """
+        branch = models.Branch.objects.create(
+            branch_code=1111,
+        )
+        table = models.Table.objects.create(
+            is_empty=True,
+            is_reserved=False,
+            capacity=4,
+            branch=branch
+        )
+
+        self.assertEqual(str(table), str(table.pk))
+
+    
+    def test_order_online_str(self):
+        """ Test the online order string representaion
+            (adding an online order succussfuly)
+        """
+        branch = models.Branch.objects.create(
+            branch_code=1234
+        )
+        customer =  models.Customer.objects.create(
+            user=get_user_model().objects.create_user(
+                email='test1@gmail.com',
+                password=4141
+            ),
+            customer_id=1111
+        )
+        food = models.Food.objects.create(
+            name='کباب کوبیده',
+            price=10000,
+            description='کباب کوبیده به همراه مخلفات'
+        )
+        user = get_user_model().objects.create_user(
+                email='test2@gmai.com',
+                password='123',
+            )
+        user.is_staff = True
+        deliverer = models.Personnel.objects.create(
+            user=user,
+            personnel_code=4545,
+            gender='male',
+            province='Alborz',
+            city='karaj',
+            street='street',
+            alley='alley',
+            birth_date='2015-11-23',
+            age=6,
+            salary=10000.25
+        )
+
+        order = models.OnlineOrder.objects.create(
+            customer=customer,
+            branch=branch,
+            food=food,
+            deliverer=deliverer,
+            pay_code=str(uuid4()),
+            count=2
+        )
+
+        self.assertEqual(str(order), order.pay_code)
