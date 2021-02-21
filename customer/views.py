@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 
 from core.models import Customer
+from core.models import CustomerPhoneNo
 
 from uuid import uuid4
 
@@ -43,11 +44,18 @@ class RegisterCustomerView(View):
                     password=password1
                 )
                 user.save()
+                
                 customer = Customer.objects.create(
                     user=user,
                     customer_id=int(str(uuid4().fields[-1])[:8]),
                 )
                 customer.save()
+
+                CustomerPhoneNo.objects.create(
+                    customer=customer,
+                    phone=phone
+                ).save()
+
                 messages.success(request, "ثبت نام با موفقیت انجام شد")
                 return redirect('login')
                 

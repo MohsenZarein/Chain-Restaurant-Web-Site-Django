@@ -27,11 +27,7 @@ class RegisterTests(TestCase):
             'last_name':'Akbari',
             'password1':'123456',
             'password2':'123456',
-            'gender':'male',
-            'province':'province',
-            'city':'city',
-            'street':'street',
-            'alley':'alley'
+            'phone':'09121111'
         }
 
         url = '/customer/register'
@@ -53,11 +49,7 @@ class RegisterTests(TestCase):
             'last_name':'Akbari',
             'password1':'123456',
             'password2':'123456',
-            'gender':'male',
-            'province':'province',
-            'city':'city',
-            'street':'street',
-            'alley':'alley'
+            'phone':'091211111'
         }
 
         get_user_model().objects.create_user(
