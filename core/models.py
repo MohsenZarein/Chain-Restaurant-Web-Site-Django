@@ -3,14 +3,14 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 import os
 from uuid import uuid4
 
+
+
 def branch_upload_path_handler(instance, filename):
     """ Generate file path for new branch image """
     extension = filename.split('.')[-1]
     filename = f'{uuid4()}.{extension}'
     return os.path.join('branches/', filename)
     
-
-
 
 
 class UserManager(BaseUserManager):
@@ -53,11 +53,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     customer_id = models.IntegerField(primary_key=True, unique=True)
-    gender = models.CharField(max_length=10)
-    province = models.CharField(max_length=225)
-    city = models.CharField(max_length=225)
-    street = models.CharField(max_length=225)
-    alley = models.CharField(max_length=225)
+    gender = models.CharField(max_length=10, null=True, blank=True)
+    province = models.CharField(max_length=225, null=True, blank=True)
+    city = models.CharField(max_length=225 ,null=True, blank=True)
+    street = models.CharField(max_length=225, null=True, blank=True)
+    alley = models.CharField(max_length=225, null=True, blank=True)
 
     def __str__(self):
         return self.user.email
@@ -110,4 +110,42 @@ class Branch(models.Model):
 
     def __str__(self):
         return self.province + '-' + self.city
+
+
+
+class Food(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False)
+    price = models.IntegerField()
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+class Table(models.Model):
+    is_empty = models.BooleanField(default=True)
+    is_reserved = models.BooleanField(default=False)
+    capacity = models.IntegerField()
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.id)
+
+
+
+class OnlineOrder(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    deliverer = models.ForeignKey(Personnel, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    pay_code = models.CharField(max_length=255, blank=True, null=False)
+    count = models.IntegerField()
+
+    def __str__(self):
+        return self.pay_code
+
+
+
+    
     
