@@ -6,8 +6,8 @@
 <main>
       <!-- GALLERY DESCRIPTION -->
       <div class="gallery-description container-fluid bg-dark text-white">
-        <h1 >نام شعبه</h1>
-        <h2 id="title-2" class="special-title-2">همدان دست چپ</h2>
+        <h1 >شعبه ی   {{branch.province}}  </h1>
+        <h2 id="title-2" class="special-title-2">استان {{branch.province}} - شهر {{branch.city}}  - خیابان {{branch.street}}</h2>
       </div>
 
       <!-- GALLERY LIGHTBOX -->
@@ -114,11 +114,10 @@
             <input type="hidden" name="branch_code">      
         </div>
         </form>
-        <form action="">
+        <form action="{% url 'order' branch.branch_code %}", method="GET">
           <div style="text-align-last: center; height: 50px;" >
-            <input type="submit" value="سفارش دادن" class="btn btn-outline-dark">
-            <input type="hidden" name="branch_code">       
-        </div>
+            <input type="submit" value="سفارش دادن" class="btn btn-outline-dark">       
+          </div>
         </form>
     </main>
     
