@@ -184,9 +184,11 @@ class ModelTests(TestCase):
         food = models.Food.objects.create(
             name='کباب کوبیده',
             price=30000,
-            description='کباب کوبیده  به همراه مخلفات'
+            description='کباب کوبیده  به همراه مخلفات',
+            category='breakfasts'
         )
-        
+
+        self.assertEqual(food.category, 'breakfasts')
         self.assertEqual(str(food), food.name)
 
 

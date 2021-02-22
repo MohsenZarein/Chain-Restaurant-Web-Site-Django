@@ -117,6 +117,28 @@ class Food(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
     price = models.IntegerField()
     description = models.TextField(blank=True)
+    BREAKFASTS = 'breakfasts'
+    PIZZAS = 'pizzas'
+    BURGERS = 'burgers'
+    SEAFOODS = 'seafoods'
+    STARTERS = 'starters'
+    SALADS = 'salads'
+    KEBABS = 'kebabs'
+    GIPPOS = 'gippos'
+    TRADITIONALS = 'traditionals'
+    FOOD_CATEGORIES = [
+        (BREAKFASTS, 'breakfasts'),
+        (PIZZAS, 'pizzas'),
+        (BURGERS, 'burgers'),
+        (SEAFOODS, 'seafoods'),
+        (STARTERS, 'starters'),
+        (SALADS, 'salads'),
+        (KEBABS, 'kebabs'),
+        (GIPPOS, 'gippos'),
+        (TRADITIONALS, 'traditionals'),
+    ]
+    category = models.CharField(max_length=30, choices=FOOD_CATEGORIES, default=BREAKFASTS)
+
 
     def __str__(self):
         return self.name
