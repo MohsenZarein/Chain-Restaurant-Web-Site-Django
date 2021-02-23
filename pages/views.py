@@ -4,7 +4,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_GET, require_POST
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib import messages
 
 from core.models import Branch
@@ -58,6 +58,20 @@ class LoginView(View):
             messages.error(request, "ایمیل یا پسورد اشتباه است")
             return redirect('login')
 
+
+
+
+class LogoutView(View):
+
+    @method_decorator(csrf_exempt)
+    @method_decorator(require_POST)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def post(self, request):
+        logout(request)
+        messages.success(request, 'از حساب خود خارج شدید')
+        return redirect('index')
 
 
 
