@@ -5,11 +5,18 @@ from uuid import uuid4
 
 
 
-def branch_upload_path_handler(instance, filename):
+def branch_image_upload_path_handler(instance, filename):
     """ Generate file path for new branch image """
     extension = filename.split('.')[-1]
     filename = f'{uuid4()}.{extension}'
     return os.path.join('branches/', filename)
+
+
+def food_image_upload_path_handler(instance, filename):
+    """ Generate file path for new branch image """
+    extension = filename.split('.')[-1]
+    filename = f'{uuid4()}.{extension}'
+    return os.path.join('foods/', filename)
     
 
 
@@ -106,7 +113,7 @@ class Branch(models.Model):
     city = models.CharField(max_length=225)
     street = models.CharField(max_length=225)
     alley = models.CharField(max_length=225)
-    image = models.ImageField(null=True, blank=True, upload_to=branch_upload_path_handler)
+    image = models.ImageField(null=True, blank=False, upload_to=branch_image_upload_path_handler)
 
     def __str__(self):
         return self.province + '-' + self.city
@@ -138,6 +145,7 @@ class Food(models.Model):
         (TRADITIONALS, 'traditionals'),
     ]
     category = models.CharField(max_length=30, choices=FOOD_CATEGORIES, default=BREAKFASTS)
+    image = models.ImageField(null=True, blank=False, upload_to=food_image_upload_path_handler)
 
 
     def __str__(self):
