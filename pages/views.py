@@ -1,8 +1,8 @@
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
 from django.utils.decorators import method_decorator
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib import messages
@@ -21,7 +21,7 @@ class IndexView(View):
             'branches':branches
         }
         
-        return render_to_response('pages/index.html',context)
+        return render(request, 'pages/index.html',context)
 
 
 class LoginView(View):
@@ -57,6 +57,10 @@ class LoginView(View):
         else:
             messages.error(request, "ایمیل یا پسورد اشتباه است")
             return redirect('login')
+
+
+
+
 
         
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404, redirect, render
+from django.shortcuts import  get_object_or_404, redirect, render
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -25,7 +25,7 @@ class OrderView(View):
             'foods':foods,
             'branch':branch
         }
-        return render_to_response('order/order.html', context)
+        return render(request, 'order/order.html', context)
 
     
     def post(self, request, branch_code):

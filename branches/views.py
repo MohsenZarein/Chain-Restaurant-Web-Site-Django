@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
 from django.utils.decorators import method_decorator
@@ -18,5 +18,5 @@ class BranchView(View):
         context = {
             'branch':branch
         }
-        return render_to_response('branches/branch.html', context)
+        return render(request, 'branches/branch.html', context)
         
