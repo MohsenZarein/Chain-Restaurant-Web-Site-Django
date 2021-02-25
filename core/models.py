@@ -172,7 +172,16 @@ class OnlineOrder(models.Model):
     pay_code = models.CharField(max_length=255, blank=True, null=False, default='0')
     count = models.IntegerField()
     destination_address = models.TextField(max_length=500, null=True, blank=True)
-    is_delivered = models.BooleanField(default=False)
+    NOT_DELIVERED = 'not_delivered'
+    IS_DELIVERING = 'is_delivering'
+    DELIVERED = 'delivered'
+    STATUS = [
+        (NOT_DELIVERED, 'not_delivered'),
+        (IS_DELIVERING, 'is_delivering'),
+        (DELIVERED, 'delivered')
+    ]
+    delivery_status = models.CharField(max_length=15, choices=STATUS, default=NOT_DELIVERED)
+
 
     def __str__(self):
         return self.pay_code

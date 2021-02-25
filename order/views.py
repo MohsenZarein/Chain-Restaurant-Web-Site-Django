@@ -40,6 +40,7 @@ class OrderView(View):
                 customer=customer,
                 branch=branch,
                 food=food,
+                delivery_status=OnlineOrder.NOT_DELIVERED
             )
             order.count = order.count + count
             print(order.count)

@@ -1,6 +1,171 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
 
-{% block content %}
-<h1>Dashboard</h1>
-{% endblock content %}
+{%  block content %}
+
+    <main>
+      <!-- FOOD: DESCRIPTIONS -->
+  {% include 'partials/_alerts.html' %}
+  <div class="food-descriptions container">
+    <div class="food-category">
+      <h2 class="banner">سبد خرید</h2>
+
+    {% if orders %}
+     {% for branch in branches_in_not_delivered_status %}
+     <h2 style="text-align: center">
+        سفارش های شعبه  {{branch}}
+     </h2>
+      {% for order in orders %}
+        {% if order.delivery_status == order.NOT_DELIVERED and order.branch.branch_code == branch.branch_code %}
+          <hr class="food-horizontal-rule" />
+            <div class="row align-items-center menu-item" style="direction: rtl">
+              <div class="col-md-3 food-image">
+                <img
+                  data-src="{{order.food.image.url}}"
+                  data-srcset="
+                    {{order.food.image.url}} 1x,
+                    {{order.food.image.url}} 2x"
+                  class="rounded-circle lazyload"
+                />
+              </div>
+              <div class="col-md-9">
+                <h3 class="food-title">
+                  <span class="food-price">{{order.food.price | intcomma}}</span>
+                  <span class="food-name float-right">{{order.food.name}}</span>
+                </h3>
+                <p class="food-ingredients" style="text-align: right">{{order.food.description}}</p>
+                <div style="text-align: center">
+                  تعداد :  {{order.count}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+          {% endif %}
+        {% endfor %}         
+        
+        <br><br>
+        <div>
+          <form action="{% url 'resgister-all-orders' %}" method="POST">
+            <div class="form-row">
+              <div class="form-group col-md-12" >
+                <label for="destination" >مقصد ارسال سفارش</label>
+                <input type="text" name="destination" class="form-control"  placeholder="نهران - خیابان لاله - کوچه پردیس - پلاک ۱" required>
+                <input type="hidden" value="{{branch.branch_code}}" name="branch_code">
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-dark btn-block"  >ثبت نهایی سفارشات</button>
+            </div>
+          </form>
+        </div>
+        <br><br><br><br>
+    {% endfor %}
+    
+  {% else %}
+    <p style="text-align: center">
+      سبد خرید شما خالی است 
+    </p>
+  {% endif %}
+
+  <br><br><br><br>
+  <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+  <br><br><br><br>
+
+
+  <h2 class="banner">سفارش های در حال ارسال</h2>
+  {% if orders %}
+    {% for branch in branches_in_is_delivering_status %}
+      <h2 style="text-align: center">
+        سفارش های شعبه  {{branch}}
+      </h2>
+     {% for order in orders %}
+      {% if order.delivery_status == order.IS_DELIVERING and order.branch.branch_code == branch.branch_code%}
+        <hr class="food-horizontal-rule" />
+        <div class="row align-items-center menu-item" style="direction: rtl">
+          <div class="col-md-3 food-image">
+            <img
+              data-src="{{order.food.image.url}}"
+              data-srcset="
+                {{order.food.image.url}} 1x,
+                {{order.food.image.url}} 2x"
+              class="rounded-circle lazyload"
+            />
+          </div>
+          <div class="col-md-9">
+            <h3 class="food-title">
+              <span class="food-price">{{order.food.price | intcomma}}</span>
+              <span class="food-name float-right">{{order.food.name}}</span>
+            </h3>
+            <p class="food-ingredients" style="text-align: right">{{order.food.description}}</p>
+            <div style="text-align: center">
+              تعداد :  {{order.count}}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+   {% endif %}
+ {% endfor %}
+ <br><br>
+ {% endfor %}
+{% else %} 
+  <p style="text-align: center">
+   هیچ سفارش در حال ارسالی ندارید
+  </p>
+{% endif %}
+
+
+<br><br><br><br>
+<hr style="height:2px;border-width:0;color:gray;background-color:gray">
+<br><br><br><br>
+
+
+<h2 class="banner">سفارش های تحویل داده شده</h2>
+{% if orders %}
+  {% for branch in branches_in_delivered_status %}
+    <h2 style="text-align: center">
+      سفارش های شعبه  {{branch}}
+    </h2>
+  {% for order in orders %}
+    {% if order.delivery_status == order.DELIVERED and order.branch.branch_code == branch.branch_code %}
+      <hr class="food-horizontal-rule" />
+      <div class="row align-items-center menu-item" style="direction: rtl">
+        <div class="col-md-3 food-image">
+          <img
+            data-src="{{order.food.image.url}}"
+            data-srcset="
+              {{order.food.image.url}} 1x,
+              {{order.food.image.url}} 2x"
+            class="rounded-circle lazyload"
+          />
+        </div>
+        <div class="col-md-9">
+          <h3 class="food-title">
+            <span class="food-price">{{order.food.price | intcomma}}</span>
+            <span class="food-name float-right">{{order.food.name}}</span>
+          </h3>
+          <p class="food-ingredients" style="text-align: right">{{order.food.description}}</p>
+          <div style="text-align: center">
+            تعداد :  {{order.count}}
+            </span>
+          </div>
+        </div>
+      </div>
+      
+ {% endif %}
+{% endfor %}
+<br><br>
+{% endfor %}
+{% else %} 
+  <p style="text-align: center">
+    تاکنون هیچ سفارش ارسال شده ای نداشته اید
+  </p>
+{% endif %}
+
+ </div>
+</div>
+    </main>
+
+{%  endblock content %}
