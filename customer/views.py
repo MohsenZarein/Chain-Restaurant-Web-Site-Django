@@ -8,10 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 
-from core.models import Customer, CustomerPhoneNo, OnlineOrder, Branch
+from core.models import Customer, CustomerPhoneNo, OnlineOrder, Branch, Personnel
 
 from uuid import uuid4
-
+from datetime import datetime
 
 
 class RegisterCustomerView(View):
@@ -101,9 +101,15 @@ class DashboardView(View):
             if not orders.filter(branch=branch, delivery_status=OnlineOrder.DELIVERED).exists():
                 branches_to_be_deleted_delivered.append(branch.branch_code)
                 
-        branches_in_not_delivered_status = Branch.objects.exclude(branch_code__in=branches_to_be_deleted_not_delivered)
-        branches_in_is_delivering_status = Branch.objects.exclude(branch_code__in=branches_to_be_deleted_is_delivering)
-        branches_in_delivered_status = Branch.objects.exclude(branch_code__in=branches_to_be_deleted_delivered)
+        branches_in_not_delivered_status = Branch.objects.exclude(
+            branch_code__in=branches_to_be_deleted_not_delivered
+            )
+        branches_in_is_delivering_status = Branch.objects.exclude(
+            branch_code__in=branches_to_be_deleted_is_delivering
+            )
+        branches_in_delivered_status = Branch.objects.exclude(
+            branch_code__in=branches_to_be_deleted_delivered
+            )
 
        
 
@@ -143,6 +149,7 @@ class RegisterAllOrdersView(View):
         )
 
         if not not_delivered_orders:
+
             messages.error(request, 'سبد خرید شما خالی است')
             return redirect('customer-dashboard')
 
@@ -150,12 +157,17 @@ class RegisterAllOrdersView(View):
 
             pay_code = str(uuid4())
 
+            perssonel = Personnel.objects.filter(
+                branch=branch
+            ).order_by('last_service').first()
+            perssonel.last_service = datetime.now()
+            perssonel.save()
+
             for order in not_delivered_orders:
                 order.delivery_status = OnlineOrder.IS_DELIVERING
                 order.pay_code = pay_code
                 order.destination_address = destination
-                #TODO:
-                #order.deliverer = perssonel
+                order.deliverer = perssonel
                 order.save()
             
             messages.success(request, 'سفارش های های شما با موفقیت ثبت شد')

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 import os
 from uuid import uuid4
-
+from datetime import datetime
 
 
 def branch_image_upload_path_handler(instance, filename):
@@ -57,6 +57,20 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 
+class Branch(models.Model):
+    branch_code = models.IntegerField(primary_key=True, unique=True)
+    phone = models.CharField(max_length=50)
+    personnel_count = models.IntegerField(default=0)
+    province = models.CharField(max_length=225)
+    city = models.CharField(max_length=225)
+    street = models.CharField(max_length=225)
+    alley = models.CharField(max_length=225)
+    image = models.ImageField(null=True, blank=False, upload_to=branch_image_upload_path_handler)
+
+    def __str__(self):
+        return self.province + '-' + self.city
+
+
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     customer_id = models.IntegerField(primary_key=True, unique=True)
@@ -71,6 +85,8 @@ class Customer(models.Model):
 
 
 
+
+
 class Personnel(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     personnel_code = models.IntegerField(primary_key=True, unique=True)
@@ -82,7 +98,9 @@ class Personnel(models.Model):
     birth_date = models.DateField()
     age = models.IntegerField()
     salary = models.DecimalField(max_digits=12, decimal_places=2)
+    last_service = models.DateTimeField(default=datetime.now , blank=True)
     supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    branch = models.ForeignKey(Branch, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.user.email
@@ -105,18 +123,7 @@ class PersonnelPhoneNo(models.Model):
         return self.phone
 
 
-class Branch(models.Model):
-    branch_code = models.IntegerField(primary_key=True, unique=True)
-    phone = models.CharField(max_length=50)
-    personnel_count = models.IntegerField(default=0)
-    province = models.CharField(max_length=225)
-    city = models.CharField(max_length=225)
-    street = models.CharField(max_length=225)
-    alley = models.CharField(max_length=225)
-    image = models.ImageField(null=True, blank=False, upload_to=branch_image_upload_path_handler)
 
-    def __str__(self):
-        return self.province + '-' + self.city
 
 
 

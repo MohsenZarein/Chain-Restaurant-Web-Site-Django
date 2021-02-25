@@ -50,8 +50,8 @@ class LoginView(View):
                 #return redirect('manager-dashboard')
                 return HttpResponse(status=200)
             elif user.is_staff:
-                #return redirect('personnel-dashboard')
-                return HttpResponse(status=200)
+                return redirect('index')
+                #return HttpResponse(status=200)
             else:
                 return redirect('customer-dashboard')            
         else:
