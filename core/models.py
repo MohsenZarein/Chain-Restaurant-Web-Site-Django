@@ -81,7 +81,7 @@ class Personnel(models.Model):
     alley = models.CharField(max_length=225)
     birth_date = models.DateField()
     age = models.IntegerField()
-    salary = models.DecimalField(max_digits=8, decimal_places=2)
+    salary = models.DecimalField(max_digits=12, decimal_places=2)
     supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
