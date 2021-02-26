@@ -3,7 +3,7 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <a class="navbar-brand animated pulse" href="#">
-      <img src="{% static 'img/logo/logo-light.svg' %}" width="30" height="30" alt="Logo">
+      <img src="{% static 'img/logo/logo-dark.svg' %}" width="30" height="30" alt="Logo">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -44,7 +44,7 @@
               {% if user.is_superuser %}
                 <a class="nav-link" href="#">داشبورد</a>
               {% elif user.is_staff%}
-                <a class="nav-link" href="{% url 'index' %}">داشبورد</a>
+                <a class="nav-link" href="{% url 'perssonel-dashboard' %}">داشبورد</a>
               {% else %}
                 <a class="nav-link" href="{% url 'customer-dashboard' %}">داشبورد</a>
               {% endif %}

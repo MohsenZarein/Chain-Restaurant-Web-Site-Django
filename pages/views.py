@@ -45,16 +45,19 @@ class LoginView(View):
             )
         
         if user is not None:
+
             login(request, user)
+
             if user.is_superuser:
                 #return redirect('manager-dashboard')
                 return HttpResponse(status=200)
             elif user.is_staff:
-                return redirect('index')
-                #return HttpResponse(status=200)
+                return redirect('perssonel-dashboard')
             else:
-                return redirect('customer-dashboard')            
+                return redirect('customer-dashboard')    
+
         else:
+            
             messages.error(request, "ایمیل یا پسورد اشتباه است")
             return redirect('login')
 
