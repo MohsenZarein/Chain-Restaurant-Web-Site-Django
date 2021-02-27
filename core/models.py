@@ -172,8 +172,8 @@ class Table(models.Model):
 
 
 class OnlineOrder(models.Model):
-    customer = models.ForeignKey(Customer, null=True, on_delete=models.CASCADE)
-    personnel_as_customer = models.ForeignKey(Personnel, null=True, on_delete=models.CASCADE, related_name='personnel_as_customer')
+    customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.CASCADE)
+    personnel_as_customer = models.ForeignKey(Personnel, null=True, blank=True, on_delete=models.CASCADE, related_name='personnel_as_customer')
     deliverer = models.ForeignKey(Personnel, on_delete=models.CASCADE, null=True, blank=True, related_name='deliverer')
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)

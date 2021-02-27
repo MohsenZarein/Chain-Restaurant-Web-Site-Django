@@ -5,6 +5,7 @@
 {% block content %}
 
     <main>
+      {% include 'partials/_alerts.html' %}
       <hr class="contact-horizontal-rule" />
       <div class="container-fluid contact-information-wrapper dark-overlay">
         <img
@@ -150,6 +151,9 @@
       <h2 class="banner">
         سفارش های موجود
       </h2>
+      <br><br><br>
+
+      <!--Customer Orders-->
       {% if orders %}
         {% for customer in customers %}
 
@@ -220,16 +224,92 @@
             </form>
             <br>
             {% if not forloop.last %}
+            <hr class="food-horizontal-rule" />
+            {% endif %}
+            <br>
+          {% endfor %}
+      
+      {% endif %}
+
+      <!--Personnel Orders-->
+      {% if personnel_as_customer_orders %}
+      <hr class="food-horizontal-rule" />
+      {% for personnel in personnels %}
+
+            <br><br>
+            <div class="col-md-11">
+              <h3 class="food-title">
+                <span class="food-price">{{personnel.user.first_name}} {{personnel.user.last_name}}</span>
+                <span class="food-name float-right">نام مشتری</span>
+              </h3>
+            </div>
+
+            {% for order in personnel_as_customer_orders %}
+              {% if order.personnel_as_customer.personnel_code == personnel.personnel_code %}
+                  <div class="col-md-11">
+                    <h3 class="food-title">
+                      <span class="food-price">{{order.food.price | intcomma}}</span>
+                      <span class="food-name float-right">{{order.food.name}}</span>
+                    </h3>
+                  </div>
+              {% endif %}
+            {% endfor %}
+
+            {% for i in personnels_delivery_destination_and_paycodes %}
+              {% if personnel.personnel_code == i.personnel_code %}
+                  <div class="col-md-11">
+                    <h3 class="food-title">
+                      <span class="food-price">{{i.destination}}</span>
+                      <span class="food-name float-right">آدرس </span>
+                    </h3>
+                  </div>
+                  <div class="col-md-11">
+                    <h3 class="food-title">
+                      <span class="food-price">{{i.pay_code}}</span>
+                      <span class="food-name float-right">کد پرداخت</span>
+                    </h3>
+                  </div>
+              {% endif %}
+            {% endfor %}
+      
+            {% for phone in personnels_to_be_serviced_phone_no %}
+                  {% if phone.personnel.personnel_code == personnel.personnel_code %}
+                    <div class="col-md-11">
+                      <h3 class="food-title">
+                        <span class="food-price">{{phone}}</span>
+                        <span class="food-name float-right">شماره تماس مشتری </span>
+                      </h3>
+                    </div>
+                  {% endif %}
+            {% endfor %}
+            
+
+            {% for i in personnel_as_customer_totals %}
+              {% if personnel.personnel_code == i.personnel_code%}
+                <div class="col-md-11">
+                  <h3 class="food-title">
+                    <span class="food-price">{{i.total | intcomma}}</span>
+                    <span class="food-name float-right">قیمت کل</span>
+                  </h3>
+                </div>
+              {% endif %}
+            {% endfor %}
+      
+            <form action="{% url 'final-delivery' %}" method="POST">
+              <div class="text-center">  
+                <input type="submit" class="btn btn-light btn-outline-dark" value="ارسال شد">
+                <input type="hidden" name="personnel_code" value="{{personnel.personnel_code}}">
+              </div>
+            </form>
+            <br>
+            {% if not forloop.last %}
             <hr style="height:2px;border-width:0;color:gray;background-color:gray">
             {% endif %}
             <br>
           {% endfor %}
-      {% else %}
-        <br><br>
-        <p style="text-align: center">
-          در حال حاضر هیچ سفارشی موجود نیست
-        </p>
+      
       {% endif %}
+      
     </div>
 
     

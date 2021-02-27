@@ -62,6 +62,7 @@ class OrderView(View):
             except exceptions.ObjectDoesNotExist:
                 OnlineOrder.objects.create(
                     personnel_as_customer=personnel_as_customer,
+                    customer=None,
                     branch=branch,
                     food=food,
                     count=count
@@ -99,6 +100,7 @@ class OrderView(View):
             except exceptions.ObjectDoesNotExist:
                 OnlineOrder.objects.create(
                     customer=customer,
+                    personnel_as_customer=None,
                     branch=branch,
                     food=food,
                     count=count

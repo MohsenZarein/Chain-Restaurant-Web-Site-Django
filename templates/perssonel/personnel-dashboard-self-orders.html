@@ -48,11 +48,11 @@
         
         <br><br>
         <div>
-          <form action="{% url 'resgister-all-orders' %}" method="POST">
+          <form action="{% url 'register-all-personnel-orders' %}" method="POST">
             <div class="form-row">
               <div class="form-group col-md-12" >
                 <label for="destination" >مقصد ارسال سفارش</label>
-                <input type="text" name="destination" class="form-control"  placeholder="نهران - خیابان لاله - کوچه پردیس - پلاک ۱" required>
+                <input type="text" name="destination" class="form-control"  placeholder="... آدرس را وارد کنید " required>
                 <input type="hidden" value="{{branch.branch_code}}" name="branch_code">
               </div>
             </div>
