@@ -3,10 +3,11 @@ from django.http import HttpResponse
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.http import HttpResponseBadRequest
 
 from core.models import Customer, CustomerPhoneNo, OnlineOrder, Branch, Personnel
 
@@ -73,6 +74,7 @@ class RegisterCustomerView(View):
 class DashboardView(View):
 
     @method_decorator(login_required)
+    @method_decorator(require_GET)
     def dispatch(self, *args, **kwargs):
 
         return super().dispatch(*args, **kwargs)
@@ -80,49 +82,55 @@ class DashboardView(View):
 
     def get(self, request):
 
-        orders = OnlineOrder.objects.filter(
-            customer=request.user.customer
-        )
+        if not request.user.is_staff:
 
-        branches = Branch.objects.all()
+            orders = OnlineOrder.objects.filter(
+                customer=request.user.customer
+            )
 
-        branches_to_be_deleted_not_delivered = []
-        branches_to_be_deleted_is_delivering = []
-        branches_to_be_deleted_delivered = []
+            branches = Branch.objects.all()
+
+            branches_to_be_deleted_not_delivered = []
+            branches_to_be_deleted_is_delivering = []
+            branches_to_be_deleted_delivered = []
+            
+            for branch in branches:
+
+                if not orders.filter(branch=branch, delivery_status=OnlineOrder.NOT_DELIVERED).exists():
+                    branches_to_be_deleted_not_delivered.append(branch.branch_code)
+
+                if not orders.filter(branch=branch, delivery_status=OnlineOrder.IS_DELIVERING).exists():
+                    branches_to_be_deleted_is_delivering.append(branch.branch_code)
+                    
+                if not orders.filter(branch=branch, delivery_status=OnlineOrder.DELIVERED).exists():
+                    branches_to_be_deleted_delivered.append(branch.branch_code)
+                    
+            branches_in_not_delivered_status = Branch.objects.exclude(
+                branch_code__in=branches_to_be_deleted_not_delivered
+                )
+            branches_in_is_delivering_status = Branch.objects.exclude(
+                branch_code__in=branches_to_be_deleted_is_delivering
+                )
+            branches_in_delivered_status = Branch.objects.exclude(
+                branch_code__in=branches_to_be_deleted_delivered
+                )
+
         
-        for branch in branches:
 
-            if not orders.filter(branch=branch, delivery_status=OnlineOrder.NOT_DELIVERED).exists():
-                branches_to_be_deleted_not_delivered.append(branch.branch_code)
+            context = {
+                'orders':orders,
+                'branches_in_not_delivered_status':branches_in_not_delivered_status,
+                'branches_in_is_delivering_status':branches_in_is_delivering_status,
+                'branches_in_delivered_status':branches_in_delivered_status
+            }
 
-            if not orders.filter(branch=branch, delivery_status=OnlineOrder.IS_DELIVERING).exists():
-                branches_to_be_deleted_is_delivering.append(branch.branch_code)
-                
-            if not orders.filter(branch=branch, delivery_status=OnlineOrder.DELIVERED).exists():
-                branches_to_be_deleted_delivered.append(branch.branch_code)
-                
-        branches_in_not_delivered_status = Branch.objects.exclude(
-            branch_code__in=branches_to_be_deleted_not_delivered
-            )
-        branches_in_is_delivering_status = Branch.objects.exclude(
-            branch_code__in=branches_to_be_deleted_is_delivering
-            )
-        branches_in_delivered_status = Branch.objects.exclude(
-            branch_code__in=branches_to_be_deleted_delivered
-            )
+            return render(request, 'customer/dashboard.html', context)
 
-       
+        else:
 
-        context = {
-            'orders':orders,
-            'branches_in_not_delivered_status':branches_in_not_delivered_status,
-            'branches_in_is_delivering_status':branches_in_is_delivering_status,
-            'branches_in_delivered_status':branches_in_delivered_status
-        }
+            return HttpResponseBadRequest()
 
-        return render(request, 'customer/dashboard.html', context)
-
-
+            
 
 class RegisterAllOrdersView(View):
 

@@ -19,23 +19,25 @@
         >
           <a class="nav-link" href="{% url 'index' %}">صفحه اصلی</a>
         </li>
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="pages/food.html" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            منو
-          </a>
-          <div class="dropdown-menu text-center text-lg-left" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="pages/food.html">Food</a>
-            <a class="dropdown-item" href="pages/desserts.html">Desserts</a>
-            <a class="dropdown-item" href="pages/drinks.html">Drinks</a>
-          </div>
-        </li> -->
         <li class="nav-item">        
           <a class="nav-link" href="#">درباره ما</a>
         </li>
+        {% if request.user.is_authenticated and request.user.is_staff %}
+         <li
+         {% if 'personnel-dashboard-self-orders' in request.path %}
+          class="nav-item active"
+         {% else %}
+          class="nav-item"
+         {% endif %}
+         >
+          <a class="nav-link" href="{% url 'personnel-dashboard-self-orders' %}">داشبورد سفارش های شما</a>
+        </li>
+        {% endif %}
+        
       
         {% if request.user.is_authenticated %}
             <li
-            {% if 'dashboard' in request.path %}
+            {% if 'perssonel-dashboard' in request.path %}
             class="nav-item active"
             {% else %}
             class="nav-item"

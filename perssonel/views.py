@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 
-from core.models import OnlineOrder, Personnel, Customer, CustomerPhoneNo
+from core.models import OnlineOrder, Personnel, Customer, CustomerPhoneNo, Branch
 from uuid import uuid4
 
 
@@ -88,7 +88,67 @@ class PerssonelDashboardView(View):
 
             return HttpResponseForbidden()
 
+
+class PersonneDashboardSelfOrdersView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_GET)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+    
+
+    def get(self, request):
+
+        if request.user.is_staff:
+
+            orders = OnlineOrder.objects.filter(
+                personnel_as_customer=request.user.personnel
+            )
+
+            branches = Branch.objects.all()
+
+            branches_to_be_deleted_not_delivered = []
+            branches_to_be_deleted_is_delivering = []
+            branches_to_be_deleted_delivered = []
+            
+            for branch in branches:
+
+                if not orders.filter(branch=branch, delivery_status=OnlineOrder.NOT_DELIVERED).exists():
+                    branches_to_be_deleted_not_delivered.append(branch.branch_code)
+
+                if not orders.filter(branch=branch, delivery_status=OnlineOrder.IS_DELIVERING).exists():
+                    branches_to_be_deleted_is_delivering.append(branch.branch_code)
+                    
+                if not orders.filter(branch=branch, delivery_status=OnlineOrder.DELIVERED).exists():
+                    branches_to_be_deleted_delivered.append(branch.branch_code)
+                    
+            branches_in_not_delivered_status = Branch.objects.exclude(
+                branch_code__in=branches_to_be_deleted_not_delivered
+                )
+            branches_in_is_delivering_status = Branch.objects.exclude(
+                branch_code__in=branches_to_be_deleted_is_delivering
+                )
+            branches_in_delivered_status = Branch.objects.exclude(
+                branch_code__in=branches_to_be_deleted_delivered
+                )
+
         
+
+            context = {
+                'orders':orders,
+                'branches_in_not_delivered_status':branches_in_not_delivered_status,
+                'branches_in_is_delivering_status':branches_in_is_delivering_status,
+                'branches_in_delivered_status':branches_in_delivered_status
+            }
+
+            return render(request, 'perssonel/personnel-dashboard-self-orders.html', context)
+
+        else:
+            
+            return HttpResponseForbidden()
+
+
 
 class FinalDeliveryView(View):
 
