@@ -108,10 +108,9 @@
           </div>
         </div>
       </div>
-      <form action="">
+      <form action="{% url 'reservation' branch.branch_code %}" method="GET">
         <div style="text-align-last: center; height: 50px;" >
-            <input type="submit" value="رزرو میز" class="btn btn-outline-dark"  >  
-            <input type="hidden" name="branch_code">      
+            <input type="submit" value="رزرو میز" class="btn btn-outline-dark"  >      
         </div>
         </form>
         <form action="{% url 'order' branch.branch_code %}", method="GET">

@@ -170,6 +170,18 @@ class Table(models.Model):
         return str(self.id)
 
 
+class ReserveTable(models.Model):
+    date = models.DateField()
+    customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.CASCADE)
+    personnel_as_customer = models.ForeignKey(Personnel, null=True, blank=True, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.id)
+    
+
+
 
 class OnlineOrder(models.Model):
     customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.CASCADE)
