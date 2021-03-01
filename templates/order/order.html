@@ -2,50 +2,16 @@
 
 {% load humanize %}
 
+{% load static %}
+
 {% block content %}
 
-    <main>
+    <main id="top">
       <!-- FOOD: JUMBOTRON -->
       <div class="jumbotron food-jumbotron dark-overlay text-white">
         <img
           sizes="(max-width: 2560px) 100vw, 2560px"
-          srcset="
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_320/v1536008489/website-template-3/cover-food-menu.jpg 320w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_492/v1536008489/website-template-3/cover-food-menu.jpg 492w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_627/v1536008489/website-template-3/cover-food-menu.jpg 627w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_743/v1536008489/website-template-3/cover-food-menu.jpg 743w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_853/v1536008489/website-template-3/cover-food-menu.jpg 853w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_953/v1536008489/website-template-3/cover-food-menu.jpg 953w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1040/v1536008489/website-template-3/cover-food-menu.jpg 1040w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1120/v1536008489/website-template-3/cover-food-menu.jpg 1120w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1196/v1536008489/website-template-3/cover-food-menu.jpg 1196w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1273/v1536008489/website-template-3/cover-food-menu.jpg 1273w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1348/v1536008489/website-template-3/cover-food-menu.jpg 1348w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1416/v1536008489/website-template-3/cover-food-menu.jpg 1416w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1483/v1536008489/website-template-3/cover-food-menu.jpg 1483w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1543/v1536008489/website-template-3/cover-food-menu.jpg 1543w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1603/v1536008489/website-template-3/cover-food-menu.jpg 1603w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1665/v1536008489/website-template-3/cover-food-menu.jpg 1665w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1727/v1536008489/website-template-3/cover-food-menu.jpg 1727w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1787/v1536008489/website-template-3/cover-food-menu.jpg 1787w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1847/v1536008489/website-template-3/cover-food-menu.jpg 1847w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1900/v1536008489/website-template-3/cover-food-menu.jpg 1900w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1947/v1536008489/website-template-3/cover-food-menu.jpg 1947w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2001/v1536008489/website-template-3/cover-food-menu.jpg 2001w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2051/v1536008489/website-template-3/cover-food-menu.jpg 2051w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2104/v1536008489/website-template-3/cover-food-menu.jpg 2104w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2157/v1536008489/website-template-3/cover-food-menu.jpg 2157w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2203/v1536008489/website-template-3/cover-food-menu.jpg 2203w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2251/v1536008489/website-template-3/cover-food-menu.jpg 2251w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2299/v1536008489/website-template-3/cover-food-menu.jpg 2299w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2343/v1536008489/website-template-3/cover-food-menu.jpg 2343w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2389/v1536008489/website-template-3/cover-food-menu.jpg 2389w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2439/v1536008489/website-template-3/cover-food-menu.jpg 2439w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2486/v1536008489/website-template-3/cover-food-menu.jpg 2486w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2526/v1536008489/website-template-3/cover-food-menu.jpg 2526w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2558/v1536008489/website-template-3/cover-food-menu.jpg 2558w,
-            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2560/v1536008489/website-template-3/cover-food-menu.jpg 2560w"
-          src="https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2560/v1536008489/website-template-3/cover-food-menu.jpg"
+          src="{% static 'img/order/olenka-kotyk-iRguZkRTQyA-unsplash.jpg' %}"
           alt=""
           class="food-jumbotron-bg">
         {% include 'partials/_alerts.html' %}
@@ -54,36 +20,53 @@
           <div id="menu-icons">
             <div class="row">
               <div class="col-3">
-                <a href="#breakfasts" class="smooth-scroll"><img class="menu-icon" src="../media/menu/food/icons/breakfasts.svg" alt="صبحانه"></a>
+                <a href="#breakfasts" data-toggle="tooltip" class="smooth-scroll" title="صبحانه">
+                  <img class="menu-icon" src="{% static 'img/order/icon/breakfasts.svg' %}" alt="صبحانه">
+                </a>
               </div>
               <div class="col-3">
-                <a href="#burgers" class="smooth-scroll"><img class="menu-icon" src="../media/menu/food/icons/burgers.svg" alt="برگر "></a>
+                <a href="#burgers" data-toggle="tooltip" class="smooth-scroll" title="برگر">
+                  <img class="menu-icon" src="{% static 'img/order/icon/burgers.svg' %}" alt="برگر ">
+                </a>
               </div>
               <div class="col-3">
-                <a href="#kebabs" class="smooth-scroll"><img class="menu-icon" src="../media/menu/food/icons/flavours-of-cyprus.svg" alt="کباب"></a>
+                <a href="#kebabs" data-toggle="tooltip" class="smooth-scroll" title="کباب">
+                  <img class="menu-icon" src="{% static 'img/order/icon/from-the-grill.svg' %}" alt="کباب">
+                </a>
               </div>
-                       
             </div>
             <div class="row mt-5">
               <div class="col-3">
-                <a href="#gippos" class="smooth-scroll"><img class="menu-icon" src="../media/menu/food/icons/from-the-grill.svg" alt="خورش"></a>
+                <a href="#gippos" data-toggle="tooltip" class="smooth-scroll" title="خورش">
+                  <img class="menu-icon" src="{% static 'img/order/icon/pies.svg' %}" alt="خورش">
+                </a>
               </div> 
               <div class="col-3">
-                <a href="#pizzas" class="smooth-scroll"><img class="menu-icon" src="../media/menu/food/icons/pizzas.svg" alt="پیتزا"></a>
+                <a href="#pizzas" data-toggle="tooltip" class="smooth-scroll" title="پیتزا">
+                  <img class="menu-icon" src="{% static 'img/order/icon/pizzas.svg' %}" alt="پیتزا">
+                </a>
               </div>
               <div class="col-3">
-                <a href="#salads" class="smooth-scroll"><img class="menu-icon" src="../media/menu/food/icons/salads.svg" alt="سالاد"></a>
+                <a href="#salads" data-toggle="tooltip" class="smooth-scroll" title="سالاد">
+                  <img class="menu-icon" src="{% static 'img/order/icon/salads.svg' %}" alt="سالاد">
+                </a>
               </div>
             </div>
             <div class="row mt-5">
               <div class="col-3">
-                <a href="#seafood" class="smooth-scroll"><img class="menu-icon" src="../media/menu/food/icons/seafood.svg" alt="غذای دریایی"></a>
+                <a href="#seafood" data-toggle="tooltip" class="smooth-scroll" title="غذای دریایی">
+                  <img class="menu-icon" src="{% static 'img/order/icon/seafood.svg' %}" alt="غذای دریایی">
+                </a>
               </div>
               <div class="col-3">
-                <a href="#traditionals" class="smooth-scroll"><img class="menu-icon" src="../media/menu/food/icons/specials.svg" alt="غذای سنتی"></a>
+                <a href="#traditionals" data-toggle="tooltip" class="smooth-scroll" title="غدای محلی">
+                  <img class="menu-icon" src="{% static 'img/order/icon/specials.svg' %}" alt="غذای سنتی">
+                </a>
               </div>
               <div class="col-3">
-                <a href="#starters" class="smooth-scroll"><img class="menu-icon" src="../media/menu/food/icons/starters.svg" alt="پیش غذا"></a>
+                <a href="#starters" data-toggle="tooltip" class="smooth-scroll" title="پیش غذا">
+                  <img class="menu-icon" src="{% static 'img/order/icon/starters.svg' %}" alt="پیش غذا">
+                </a>
               </div>
             </div>
           </div>
@@ -98,7 +81,9 @@
           {% for food in foods %}
             {% if food.category == 'breakfasts' %}
             <div id="breakfasts" class="food-category">
-              <hr class="food-horizontal-rule">
+              {% if not forloop.first %}
+                <hr class="food-horizontal-rule">
+              {% endif %}
               <div class="row align-items-center menu-item" style="direction: rtl;">
                 <div class="col-md-3 food-image">
                   <img 

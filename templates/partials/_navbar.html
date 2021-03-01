@@ -30,7 +30,7 @@
           class="nav-item"
          {% endif %}
          >
-          <a class="nav-link" href="{% url 'personnel-dashboard-self-orders' %}">داشبورد سفارش های شما</a>
+          <a class="nav-link" href="{% url 'personnel-dashboard-self-orders' %}">داشبورد شخصی</a>
         </li>
         {% endif %}
         
@@ -46,7 +46,7 @@
               {% if user.is_superuser %}
                 <a class="nav-link" href="#">داشبورد</a>
               {% elif user.is_staff%}
-                <a class="nav-link" href="{% url 'perssonel-dashboard' %}">داشبورد</a>
+                <a class="nav-link" href="{% url 'perssonel-dashboard' %}"> داشبورد خدمات مشتری</a>
               {% else %}
                 <a class="nav-link" href="{% url 'customer-dashboard' %}">داشبورد</a>
               {% endif %}
@@ -87,6 +87,8 @@
       
       <div class="ml-auto">
         <a class="nav-social mr-2" href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        <a class="nav-social" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        <a class="nav-social" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
         <a class="nav-social" href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a>
       </div>
     </div>
