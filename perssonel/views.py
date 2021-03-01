@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
+from django.core import exceptions
 
 from core.models import OnlineOrder, Personnel, Customer, CustomerPhoneNo, PersonnelPhoneNo, Branch
 from uuid import uuid4
@@ -491,3 +492,71 @@ class AddPersonnelView(View):
         else:
 
             return HttpResponseForbidden()
+
+
+
+class DeletePersonnelView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+    
+
+    def get(self, request):
+
+        if request.user.is_superuser:
+
+            personnels = Personnel.objects.filter(
+                branch=request.user.personnel.branch
+                ).exclude(personnel_code=request.user.personnel.personnel_code)
+
+            context = {
+                'personnels':personnels
+            }
+
+            return render(request, 'perssonel/delete-personnel.html', context)
+
+        else:
+
+            return HttpResponseForbidden()
+
+
+    def post(self, request):
+
+        if request.user.is_superuser:
+
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            personnel_code = request.POST.get('personnel_code')
+
+            try:
+                
+                personnel = Personnel.objects.get(personnel_code=int(personnel_code))
+                user = personnel.user
+
+                if personnel.branch.branch_code == request.user.personnel.branch.branch_code:
+
+                    if user.first_name == first_name and user.last_name == last_name:
+
+                        user.delete()
+                        messages.success(request, 'پرسنل مورد نظر از سیستم حذف شد')
+                        return redirect('delete-personnel')
+                    
+                    else:
+
+                        messages.error(request, 'نام و نام خانوادگی با کد پرسنلی مطابقت ندارد')
+                        return redirect('delete-personnel')
+                else:
+
+                    messages.error(request, ' هیچ پرسنلی با این کد در این شعبه ثبت نشده است')
+                    return redirect('delete-personnel')
+
+            except exceptions.ObjectDoesNotExist:
+
+                messages.error(request, 'هیچ پرسنلی با این کد پرسنلی در سیستم ثبت نشده است')
+                return redirect('delete-personnel')
+
+
+

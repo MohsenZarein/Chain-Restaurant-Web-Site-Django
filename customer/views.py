@@ -48,7 +48,7 @@ class RegisterCustomerView(View):
                 
                 customer = Customer.objects.create(
                     user=user,
-                    customer_id=int(str(uuid4().fields[-1])[:8]),
+                    customer_id=int(str(uuid4().fields[-1])),
                 )
                 customer.save()
 
