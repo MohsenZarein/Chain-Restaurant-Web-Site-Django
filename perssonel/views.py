@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from django.core.paginator import Paginator
 
 from core.models import OnlineOrder, Personnel, Customer, CustomerPhoneNo, PersonnelPhoneNo, Branch
 from uuid import uuid4
@@ -25,8 +26,9 @@ class PerssonelDashboardView(View):
     def get(self, request):
         
         user = request.user
+
     
-        if user.is_staff:
+        if user.is_staff and not user.is_superuser:
             
             this_perssonel = user.personnel
 
@@ -309,10 +311,19 @@ class RegisterAllPersonnelOrders(View):
             else:
 
                 pay_code = str(uuid4())
+                
+                personnels = Personnel.objects.filter(branch=branch)
+                manager = None
+                for p in personnels:
+                    if p.user.is_superuser:
+                        manager = p
+                        break
 
                 perssonel = Personnel.objects.filter(
                     branch=branch
-                ).exclude(personnel_code=personnel_as_customer.personnel_code).order_by('last_service').first()
+                ).exclude(personnel_code=personnel_as_customer.personnel_code).exclude(
+                    personnel_code=manager.personnel_code
+                ).order_by('last_service').first()
 
                 perssonel.last_service = datetime.now()
                 perssonel.save()
@@ -330,3 +341,37 @@ class RegisterAllPersonnelOrders(View):
         else:
 
             return HttpResponseForbidden()
+
+
+
+class PersonnelInfoView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_GET)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+
+    
+    def get(self, request):
+
+        if request.user.is_superuser:
+
+            personnels = Personnel.objects.filter(
+                branch=request.user.personnel.branch
+            ).exclude(personnel_code=request.user.personnel.personnel_code)
+
+            paginator = Paginator(personnels,3)
+            page_number = request.GET.get('page')
+            paged_personnels = paginator.get_page(page_number)
+
+            context = {
+                'personnels':paged_personnels
+            }
+
+            return render(request, 'perssonel/personnel-info.html', context)
+
+        else:
+
+            return HttpResponseForbidden()
+

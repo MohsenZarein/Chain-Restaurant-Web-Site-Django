@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+    <main>
+
+      <div class="jumbotron desserts-jumbotron dark-overlay text-white">
+        <img
+          sizes="(max-width: 2560px) 100vw, 2560px"
+          srcset="
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_320/v1536008631/website-template-3/cover-desserts-menu.jpg 320w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_584/v1536008631/website-template-3/cover-desserts-menu.jpg 584w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_792/v1536008631/website-template-3/cover-desserts-menu.jpg 792w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_972/v1536008631/website-template-3/cover-desserts-menu.jpg 972w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1141/v1536008631/website-template-3/cover-desserts-menu.jpg 1141w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1286/v1536008631/website-template-3/cover-desserts-menu.jpg 1286w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1426/v1536008631/website-template-3/cover-desserts-menu.jpg 1426w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1571/v1536008631/website-template-3/cover-desserts-menu.jpg 1571w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1700/v1536008631/website-template-3/cover-desserts-menu.jpg 1700w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1820/v1536008631/website-template-3/cover-desserts-menu.jpg 1820w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_1941/v1536008631/website-template-3/cover-desserts-menu.jpg 1941w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2058/v1536008631/website-template-3/cover-desserts-menu.jpg 2058w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2174/v1536008631/website-template-3/cover-desserts-menu.jpg 2174w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2269/v1536008631/website-template-3/cover-desserts-menu.jpg 2269w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2375/v1536008631/website-template-3/cover-desserts-menu.jpg 2375w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2471/v1536008631/website-template-3/cover-desserts-menu.jpg 2471w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2553/v1536008631/website-template-3/cover-desserts-menu.jpg 2553w,
+            https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2560/v1536008631/website-template-3/cover-desserts-menu.jpg 2560w"
+          src="https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_2560/v1536008631/website-template-3/cover-desserts-menu.jpg"
+          alt=""
+          class="desserts-jumbotron-bg">
+        <div class="desserts-jumbotron-caption container">
+          <h1 id="title-1" class="special-title-2">A&M</h1>
+        </div>
+      </div>
+
+      <div class="desserts-descriptions container">
+
+        <div id="cakes" class="dessert-category">
+          <h2 class="banner">پرسنل</h2>
+          {% if personnels %}
+            {% for personnel in personnels %}
+              <div class="row align-items-center menu-item" style="direction: rtl;">
+                <div class="col-md-3 dessert-image">
+                  <img 
+                    data-src="https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_150/v1537898527/website-template-3/cakes.jpg"
+                    data-srcset="
+                      https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_150/v1537898527/website-template-3/cakes.jpg 1x,
+                      https://res.cloudinary.com/pictureelement/image/upload/q_auto,f_auto,c_scale,w_300/v1537898527/website-template-3/cakes.jpg 2x"
+                    alt="Cake"
+                    class="rounded-circle lazyload">
+                </div>
+                <div class="col-md-9" style="text-align: right;">
+
+                  <span class="dessert-ingredients font-weight-bold" style="text-align: right; direction: rtl;"> نام :     </span>
+                  <span class="dessert-ingredients" style="text-align: right; direction: rtl;">    {{personnel.user.first_name}}    </span>
+                  <br>
+                  <span class="dessert-ingredients font-weight-bold" style="text-align: right;">نام خانوادگی : </span>
+                  <span class="dessert-ingredients" style="text-align: right;">{{personnel.user.last_name}} </span>
+                  <br>
+                  <span class="dessert-ingredients font-weight-bold" style="text-align: right;"> ایمیل :</span>
+                  <span class="dessert-ingredients" style="text-align: right;">{{personnel.user.email}} </span>
+                  <br>
+                  <span class="dessert-ingredients font-weight-bold" style="text-align: right;"> کد پرسنلی :</span>
+                  <span class="dessert-ingredients" style="text-align: right;">{{personnel.personnel_code}} </span>
+                  <br>
+                  <span class="dessert-ingredients font-weight-bold" style="text-align: right;"> حقوق :</span>
+                  <span class="dessert-ingredients" style="text-align: right;"> {{personnel.salary | intcomma}} تومان</span>
+                  <br>
+                  <span class="dessert-ingredients font-weight-bold" style="text-align: right;"> تاریخ تولد :</span>
+                  <span class="dessert-ingredients" style="text-align: right;"> {{personnel.birth_date}}</span>
+                  <br>
+                  <span class="dessert-ingredients font-weight-bold" style="text-align: right;"> سرپرست :</span>
+                  <span class="dessert-ingredients" style="text-align: right;"> {{personnel.supervisor.user.first_name}} {{personnel.supervisor.user.last_name}}</span>
+                  <br>
+                  <span class="dessert-ingredients font-weight-bold" style="text-align: right;"> آخرین سرویس دهی :</span>
+                  <span class="dessert-ingredients" style="text-align: right;">{{personnel.last_service}} </span>
+                  <br>
+                  <span class="dessert-ingredients font-weight-bold" style="text-align: right;">آدرس :</span>
+                  <span class="dessert-ingredients" style="text-align: right;">{{personnel.province}}</span>
+                  <spanp class="dessert-ingredients" style="text-align: right;">،</span>
+                  <span class="dessert-ingredients" style="text-align: right;">{{personnel.city}}</span>
+                  <spanp class="dessert-ingredients" style="text-align: right;">،</span>
+                  <span class="dessert-ingredients" style="text-align: right;">{{personnel.street}}</span>
+                  <spanp class="dessert-ingredients" style="text-align: right;">،</span>
+                  <span class="dessert-ingredients" style="text-align: right;">{{personnel.alley}}</span>
+
+
+                </div>
+              </div>
+              {% if not forloop.last %}
+              <hr class="dessert-horizontal-rule">
+              {% endif %}
+              <br><br>
+            {% endfor %}
+          {% else %}
+              <p style="text-align: center">
+                هیچ پرسنلی در این شعبه کار نمی کند
+              </p>
+          {% endif %}
+          <!--pagination-->
+      <div class="row">
+        <div class="col-md-12">
+          {% if personnels.has_other_pages %}
+            <ul class="pagination">
+              {% if personnels.has_previous %}
+                <li class="page-item">
+                  <a href="?page={{personnels.previous_page_number}}" class="page-link">&laquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&laquo;</a>
+                </li>
+              {% endif %}
+              {% for i in personnels.paginator.page_range %}
+                {% if personnels.number == i  %}
+                  <li class="page-item active">
+                    <a class="page-link">{{i}}</a>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a href="?page={{i}}" class="page-link ">{{i}}</a>
+                  </li>
+                {%endif%}
+              {% endfor %}
+              {% if personnels.has_next %}
+                <li class="page-item">
+                  <a href="?page={{personnels.next_page_number}}" class="page-link">&raquo;</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">&raquo;</a>
+                </li>
+              {% endif %}
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+      </div>
+      </div>
+    </main>
+
+
+{% endblock content %}

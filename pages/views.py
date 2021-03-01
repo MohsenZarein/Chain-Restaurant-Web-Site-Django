@@ -49,8 +49,7 @@ class LoginView(View):
             login(request, user)
 
             if user.is_superuser:
-                #return redirect('manager-dashboard')
-                return HttpResponse(status=200)
+                return redirect('personnel-dashboard-self-orders')
             elif user.is_staff:
                 return redirect('perssonel-dashboard')
             else:
