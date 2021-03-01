@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from django.core.paginator import Paginator
+from django.contrib.auth import get_user_model
 
 from core.models import OnlineOrder, Personnel, Customer, CustomerPhoneNo, PersonnelPhoneNo, Branch
 from uuid import uuid4
@@ -375,3 +376,118 @@ class PersonnelInfoView(View):
 
             return HttpResponseForbidden()
 
+
+
+class AddPersonnelView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+    
+
+    def get(self, request):
+
+        if request.user.is_superuser:
+
+            personnels = Personnel.objects.filter(branch=request.user.personnel.branch)
+
+            context = {
+                'personnels':personnels
+            }
+
+            return render(request, 'perssonel/add-personnel.html', context)
+
+        else:
+
+            return HttpResponseForbidden()
+    
+
+    def post(self, request):
+
+        if request.user.is_superuser:
+
+            email = request.POST.get('email')
+            if not get_user_model().objects.filter(email=email).exists():
+
+                password1 = request.POST.get('password1')
+                password2 = request.POST.get('password2')
+
+                if password1 == password2:
+
+                    first_name = request.POST.get('first_name')
+                    last_name = request.POST.get('last_name')
+                    gender = request.POST.get('gender')
+                    birth_date = request.POST.get('birth_date')
+                    salary = request.POST.get('salary')
+                    province = request.POST.get('province')
+                    city = request.POST.get('city')
+                    street = request.POST.get('street')
+                    alley = request.POST.get('alley')
+                    supervisor_code = request.POST.get('supervisor')
+
+                    if gender == 'M':
+                        gender = 'مرد'
+                    else:
+                        gender = 'زن'
+
+                    user = get_user_model().objects.create_user(
+                        email=email,
+                        password=password1
+                    )
+                    user.is_staff = True
+                    user.first_name = first_name
+                    user.last_name = last_name
+                    user.save()
+
+                    if supervisor_code == "None":
+
+                        Personnel.objects.create(
+                            user=user,
+                            province=province,
+                            city=city,
+                            street=street,
+                            alley=alley,
+                            gender=gender,
+                            personnel_code=int(str(uuid4().fields[-1])),
+                            birth_date=birth_date,
+                            salary=salary,
+                            branch=request.user.personnel.branch
+                        )
+
+                    else:
+
+                        supervisor = Personnel.objects.get(personnel_code=int(supervisor_code))
+
+                        Personnel.objects.create(
+                            user=user,
+                            province=province,
+                            city=city,
+                            street=street,
+                            alley=alley,
+                            gender=gender,
+                            personnel_code=int(str(uuid4().fields[-1])),
+                            birth_date=birth_date,
+                            salary=salary,
+                            branch=request.user.personnel.branch,
+                            supervisor=supervisor,
+                        )
+
+
+                    messages.success(request, 'پرسنل مورد نظر ثبت شد')
+                    return redirect('add-personnel')
+                
+                else:
+
+                    messages.error(request, 'پسورد ها مشابه نیستند')
+                    return redirect('add-personnel')
+
+            else:
+
+                messages.error(request, 'این ایمیل قبلا در سیستم ثبت شده')
+                return redirect('add-personnel')
+            
+        else:
+
+            return HttpResponseForbidden()

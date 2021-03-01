@@ -73,7 +73,7 @@ class Branch(models.Model):
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    customer_id = models.IntegerField(primary_key=True, unique=True)
+    customer_id = models.BigIntegerField(primary_key=True, unique=True)
     gender = models.CharField(max_length=10, null=True, blank=True)
     province = models.CharField(max_length=225, null=True, blank=True)
     city = models.CharField(max_length=225 ,null=True, blank=True)
@@ -89,14 +89,14 @@ class Customer(models.Model):
 
 class Personnel(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    personnel_code = models.IntegerField(primary_key=True, unique=True)
+    personnel_code = models.BigIntegerField(primary_key=True, unique=True)
     gender = models.CharField(max_length=10)
     province = models.CharField(max_length=225)
     city = models.CharField(max_length=225)
     street = models.CharField(max_length=225)
     alley = models.CharField(max_length=225)
     birth_date = models.DateField()
-    age = models.IntegerField()
+    age = models.IntegerField(null=True, blank=True)
     salary = models.DecimalField(max_digits=12, decimal_places=2)
     last_service = models.DateTimeField(default=datetime.now , blank=True)
     supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
