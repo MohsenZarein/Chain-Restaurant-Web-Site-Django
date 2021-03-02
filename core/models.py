@@ -228,3 +228,30 @@ class Order(models.Model):
         return self.pay_code
 
     
+
+
+class Store(models.Model):
+
+    class Meta:
+        unique_together = (('store_code', 'product'),)
+
+    store_code = models.BigIntegerField()
+    product = models.CharField(max_length=255)
+    amount = models.FloatField()
+    exists = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.store_code)
+        
+
+class StoreBranch(models.Model):
+
+    class Meta:
+        unique_together = (('store', 'branch'),)
+
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.store.store_code) + ' - ' + self.branch.province + ' ' + self.branch.city
+    

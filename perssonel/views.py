@@ -10,7 +10,9 @@ from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 from django.core import exceptions
 
-from core.models import OnlineOrder, Order, Personnel, Customer, CustomerPhoneNo, PersonnelPhoneNo, Branch, Food, Table
+from core.models import (OnlineOrder, Order, Personnel, Customer,
+                         CustomerPhoneNo, PersonnelPhoneNo, Branch, Food,
+                         Table, Store, StoreBranch)
                           
 from uuid import uuid4
 from datetime import datetime
@@ -678,6 +680,49 @@ class RegisterOrderByManager(View):
         else:
 
             return HttpResponseForbidden()
+
+
+
+class StoreView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_GET)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+    
+
+    def get(self, request):
+
+        if request.user.is_staff:
+
+            store_branch = StoreBranch.objects.filter(branch=request.user.personnel.branch)
+            store_code = []
+            for i in store_branch:
+                store_code.append(i.store.store_code)
+
+            store_product = Store.objects.filter(store_code__in=store_code)
+            print(store_product)
+
+            
+
+            context = {
+                'store_branch':store_branch,
+                'store_product':store_product
+            }
+            print(store_branch)
+            print(store_product)
+            return render(request, 'perssonel/stores.html', context)
+
+        else:
+
+            return HttpResponseForbidden()
+            
+
+
+
+
+
             
                 
 
