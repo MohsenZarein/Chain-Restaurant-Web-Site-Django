@@ -208,5 +208,23 @@ class OnlineOrder(models.Model):
 
 
 
-    
+
+class Order(models.Model):
+    servant = models.ForeignKey(Personnel, on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    table = models.ForeignKey(Table, null=True, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    pay_code = models.CharField(max_length=255, blank=True, null=False, default='0')
+    count = models.IntegerField()
+    NOT_DELIVERED = 'not_delivered'
+    DELIVERED = 'delivered'
+    STATUS = [
+        (NOT_DELIVERED, 'not_delivered'),
+        (DELIVERED, 'delivered')
+    ]
+    delivery_status = models.CharField(max_length=15, choices=STATUS, default=NOT_DELIVERED)
+
+    def __str__(self):
+        return self.pay_code
+
     

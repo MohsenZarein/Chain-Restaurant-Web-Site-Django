@@ -10,7 +10,8 @@ from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 from django.core import exceptions
 
-from core.models import OnlineOrder, Personnel, Customer, CustomerPhoneNo, PersonnelPhoneNo, Branch
+from core.models import OnlineOrder, Order, Personnel, Customer, CustomerPhoneNo, PersonnelPhoneNo, Branch, Food, Table
+                          
 from uuid import uuid4
 from datetime import datetime
 
@@ -133,6 +134,39 @@ class PerssonelDashboardView(View):
                         full_price['total'] += order.food.price
 
                 personnel_as_customer_totals.append(full_price)
+
+            ############
+
+            orders_registered_by_manager = Order.objects.filter(
+                servant=this_perssonel,
+                delivery_status=Order.NOT_DELIVERED
+            )
+
+            all_tables = Table.objects.filter(branch=request.user.personnel.branch)
+            tables_to_be_deleted = []
+
+            for table in all_tables:
+
+                if not orders_registered_by_manager.filter(table=table).exists():
+                    tables_to_be_deleted.append(table.pk)
+            
+            tables_to_be_serviced = Table.objects.exclude(
+                pk__in=tables_to_be_deleted
+            )
+
+            tables_totals = []
+
+            for table in tables_to_be_serviced:
+                full_price = {
+                    'table_id':table.pk,
+                    'total':0
+                }
+                for order in orders_registered_by_manager:
+                
+                    if order.table.pk == table.pk:
+                        full_price['total'] += order.food.price
+
+                tables_totals.append(full_price)
             
             context = {
                 'orders':orders,
@@ -144,7 +178,10 @@ class PerssonelDashboardView(View):
                 'personnel_as_customer_totals':personnel_as_customer_totals,
                 'personnels':personnels_to_be_serviced,
                 'personnels_to_be_serviced_phone_no':personnels_to_be_serviced_phone_no,
-                'personnels_delivery_destination_and_paycodes':personnels_delivery_destination_and_paycodes
+                'personnels_delivery_destination_and_paycodes':personnels_delivery_destination_and_paycodes,
+                'orders_registered_by_manager':orders_registered_by_manager,
+                'tables_to_be_serviced':tables_to_be_serviced,
+                'tables_totals':tables_totals
             }
 
             return render(request, 'perssonel/perssonel-dashborad.html', context)
@@ -268,6 +305,24 @@ class FinalDeliveryView(View):
                 messages.success(request, 'انجام شد')
                 return redirect('perssonel-dashboard')
             
+            elif request.POST.get('table_id', default=None):
+                
+                table = Table.objects.get(pk=int(request.POST['table_id']))
+                servant = request.user.personnel
+
+                orders = Order.objects.filter(
+                    servant=servant,
+                    table=table
+                )
+
+                for order in orders:
+                    order.delivery_status = Order.DELIVERED
+                    order.save()
+                
+                messages.success(request, 'انجام شد')
+                return redirect('perssonel-dashboard')
+
+
             else:
 
                 return HttpResponseBadRequest()
@@ -557,6 +612,75 @@ class DeletePersonnelView(View):
 
                 messages.error(request, 'هیچ پرسنلی با این کد پرسنلی در سیستم ثبت نشده است')
                 return redirect('delete-personnel')
+
+
+
+class RegisterOrderByManager(View):
+
+    @method_decorator(login_required)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+
+    
+    def get(self, request):
+
+        if request.user.is_superuser:
+
+            foods = Food.objects.all()
+
+            tables = Table.objects.filter(
+                branch=request.user.personnel.branch,
+                is_empty=True
+                )
+
+            personnels = Personnel.objects.filter(
+                branch=request.user.personnel.branch
+                ).exclude(personnel_code=request.user.personnel.personnel_code)
+
+            context = {
+                'foods':foods,
+                'personnels':personnels,
+                'tables':tables
+            }
+
+            return render(request, 'perssonel/register-order-by-manager.html', context)
+        
+        else:
+
+            return HttpResponseForbidden()
+    
+
+    def post(self, request):
+
+
+        if request.user.is_superuser:
+
+            food = Food.objects.get(pk=int(request.POST.get('food')))
+            personnel = Personnel.objects.get(personnel_code=int(request.POST.get('personnel')))
+            count = int(request.POST.get('count'))
+            table_id = request.POST.get('table')
+
+            table = Table.objects.get(pk=int(table_id))
+            Order.objects.create(
+                branch=request.user.personnel.branch,
+                table=table,
+                food=food,
+                servant=personnel,
+                pay_code=str(uuid4()),
+                count=count
+            )
+            
+            messages.success(request, 'ثبت شد')
+            return redirect('register-order-by-manager')
+        
+        else:
+
+            return HttpResponseForbidden()
+            
+                
+
 
 
 

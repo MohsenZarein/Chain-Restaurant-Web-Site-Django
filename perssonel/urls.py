@@ -10,4 +10,5 @@ urlpatterns = [
     path('personnle-info', views.PersonnelInfoView.as_view(), name='personnel-info'),
     path('add-personnel', views.AddPersonnelView.as_view(), name='add-personnel'),
     path('delete-personnel', views.DeletePersonnelView.as_view(), name='delete-personnel'),
+    path('register-order-by-manager', views.RegisterOrderByManager.as_view(), name='register-order-by-manager'),
 ]
