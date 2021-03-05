@@ -823,10 +823,33 @@ class EditInfoView(View):
             
 
 
+class AddTableView(View):
 
+    @method_decorator(login_required)
+    @method_decorator(require_POST)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
 
+        return super().dispatch(*args, **kwargs)
+    
 
-            
+    def post(self, request):
+
+        if request.user.is_superuser:
+
+            capacity = request.POST.get('capacity')
+
+            table = Table.objects.create(
+                branch=request.user.personnel.branch,
+                capacity=capacity
+            )
+
+            messages.success(request, 'میز شماره {0} به این شعبه در سیستم اضافه شد'.format(table.id))
+            return redirect('personnel-dashboard-self-orders')
+
+        else:
+
+            return HttpResponseForbidden()    
                 
 
 

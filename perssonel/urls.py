@@ -13,4 +13,5 @@ urlpatterns = [
     path('register-order-by-manager', views.RegisterOrderByManager.as_view(), name='register-order-by-manager'),
     path('view-stores', views.StoreView.as_view(), name='view-stores'),
     path('edit-info', views.EditInfoView.as_view(), name='edit-info-personnel'),
+    path('add-table', views.AddTableView.as_view(), name='add-table'),
 ]
