@@ -182,4 +182,67 @@ class RegisterAllOrdersView(View):
             return redirect('customer-dashboard')
         
 
+
+
+class EditInfoView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_POST)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+    
+
+    def post(self, request):
+
+        if not request.user.is_staff:
+
+            user = request.user
+            customer = request.user.customer
+            
+            first_name = request.POST.get('first_name', default=None)
+            if first_name:
+                user.first_name = first_name
+                user.save()
+             
+            last_name = request.POST.get('last_name', default=None)
+            if last_name:
+                user.last_name = last_name
+                user.save()
+            
+            province = request.POST.get('province', default=None)
+            if province:
+                customer.province = province
+                customer.save()
+            
+            city = request.POST.get('city', default=None)
+            if city:
+                customer.city = city
+                customer.save()
+            
+            street = request.POST.get('street', default=None)
+            if street:
+                customer.street = street
+                customer.save()
+            
+            alley = request.POST.get('alley', default=None)
+            if alley:
+                customer.alley = alley
+                customer.save()
+            
+            gender = request.POST.get('gender', default=None)
+            if gender:
+                customer.gender = gender
+                customer.save()
+            
+            messages.success(request, '! اطلاعات با موفقیت ویرایش شد ')
+            return redirect('customer-dashboard')
+
+        else:
+
+            return HttpResponseBadRequest()
+
+
+
     
