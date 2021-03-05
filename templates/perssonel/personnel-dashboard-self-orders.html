@@ -80,6 +80,17 @@
                 </div>
                 <div class="form-row"> 
                   <div class="form-group col-md-12 ">
+                    <label for="phone">شماره تماس</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="شماره تماس جدید"
+                      name="phone"
+                    />
+                  </div>
+                </div>
+                <div class="form-row"> 
+                  <div class="form-group col-md-12 ">
                     <label for="gender">جنسیت</label>
                     <select name="gender" class="form-control">
                       <option value="M">مرد</option>
@@ -115,6 +126,12 @@
                   <p>تومان {{user.personnel.salary}}</p>
                   <h6>:تاریخ اخرین سرویس دهی</h6>
                   <p>{{user.personnel.last_service}}</p>
+                  {% if phone_numbers %}
+                  <h6>:شماره تماس </h6>
+                  {% for i in phone_numbers %}
+                    <p>  {{i.phone}}   ({{forloop.counter}})  </p>
+                  {% endfor %}
+                {% endif %}
               </div>
             </div>
           </div>

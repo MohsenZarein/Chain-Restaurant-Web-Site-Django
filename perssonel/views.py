@@ -261,13 +261,14 @@ class PersonneDashboardSelfOrdersView(View):
                 branch_code__in=branches_to_be_deleted_delivered
                 )
 
-        
+            phone_numbers = PersonnelPhoneNo.objects.filter(personnel=request.user.personnel)
 
             context = {
                 'orders':orders,
                 'branches_in_not_delivered_status':branches_in_not_delivered_status,
                 'branches_in_is_delivering_status':branches_in_is_delivering_status,
-                'branches_in_delivered_status':branches_in_delivered_status
+                'branches_in_delivered_status':branches_in_delivered_status,
+                'phone_numbers':phone_numbers
             }
 
             return render(request, 'perssonel/personnel-dashboard-self-orders.html', context)
@@ -761,6 +762,18 @@ class EditInfoView(View):
 
             user = request.user
             personnel = request.user.personnel
+
+            phone = request.POST.get('phone', default=None)
+            if phone:
+                if not PersonnelPhoneNo.objects.filter(phone=phone,personnel=personnel).exists():
+                    if not PersonnelPhoneNo.objects.filter(personnel=personnel).count() >= 3 :
+                        PersonnelPhoneNo.objects.create(
+                            phone=phone,
+                            personnel=personnel
+                        )
+                    else:
+                        messages.error(request, 'نمیتوانید بیشتر از سه شماره تماس ثبت کنید')
+                        return redirect('personnel-dashboard-self-orders')
             
             first_name = request.POST.get('first_name', default=None)
             if first_name:
