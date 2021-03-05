@@ -741,6 +741,72 @@ class StoreView(View):
         else:
 
             return HttpResponseForbidden()
+
+
+
+
+class EditInfoView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_POST)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+    
+
+    def post(self, request):
+
+        if request.user.is_staff:
+
+            user = request.user
+            personnel = request.user.personnel
+            
+            first_name = request.POST.get('first_name', default=None)
+            if first_name:
+                user.first_name = first_name
+                user.save()
+             
+            last_name = request.POST.get('last_name', default=None)
+            if last_name:
+                user.last_name = last_name
+                user.save()
+            
+            province = request.POST.get('province', default=None)
+            if province:
+                personnel.province = province
+                personnel.save()
+            
+            city = request.POST.get('city', default=None)
+            if city:
+                personnel.city = city
+                personnel.save()
+            
+            street = request.POST.get('street', default=None)
+            if street:
+                personnel.street = street
+                personnel.save()
+            
+            alley = request.POST.get('alley', default=None)
+            if alley:
+                personnel.alley = alley
+                personnel.save()
+            
+            gender = request.POST.get('gender', default=None)
+            if gender:
+                if gender == "M":
+                    personnel.gender = "مرد"
+                    personnel.save()
+                else:
+                    personnel.gender = "زن"
+                    personnel.save()
+            
+            messages.success(request, '! اطلاعات با موفقیت ویرایش شد ')
+            return redirect('personnel-dashboard-self-orders')
+
+        else:
+
+            return HttpResponseBadRequest()
             
 
 

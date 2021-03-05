@@ -233,8 +233,12 @@ class EditInfoView(View):
             
             gender = request.POST.get('gender', default=None)
             if gender:
-                customer.gender = gender
-                customer.save()
+                if gender == "M":
+                    customer.gender = "مرد"
+                    customer.save()
+                else:
+                    customer.gender = "زن"
+                    customer.save()
             
             messages.success(request, '! اطلاعات با موفقیت ویرایش شد ')
             return redirect('customer-dashboard')
