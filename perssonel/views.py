@@ -42,50 +42,58 @@ class PerssonelDashboardView(View):
                 delivery_status=OnlineOrder.IS_DELIVERING,
                 personnel_as_customer=None
             )
+            if orders:
 
-            all_customers = Customer.objects.all()
-            customers_to_be_deleted = []
+                all_customers = Customer.objects.all()
+                customers_to_be_deleted = []
 
-            for customer in all_customers:
+                for customer in all_customers:
 
-                if not orders.filter(customer=customer).exists():
-                    customers_to_be_deleted.append(customer.customer_id)
-            
-            customers_to_be_serviced = Customer.objects.exclude(
-                customer_id__in=customers_to_be_deleted
-            )
+                    if not orders.filter(customer=customer).exists():
+                        customers_to_be_deleted.append(customer.customer_id)
+                
+                customers_to_be_serviced = Customer.objects.exclude(
+                    customer_id__in=customers_to_be_deleted
+                )
 
-            customers_to_be_serviced_phone_no = CustomerPhoneNo.objects.filter(
-                customer__in=customers_to_be_serviced
-            )
+                customers_to_be_serviced_phone_no = CustomerPhoneNo.objects.filter(
+                    customer__in=customers_to_be_serviced
+                )
 
-            customers_delivery_destination_and_paycodes = []
-            
-            for customer in customers_to_be_serviced:
-                for order in orders:
-                    if order.customer.customer_id == customer.customer_id:
-                        res = {
-                            'customer_id':customer.customer_id,
-                            'destination':order.destination_address,
-                            'pay_code':order.pay_code
-                        }
-                        customers_delivery_destination_and_paycodes.append(res)
-                        break
-            
-            totals = []
+                customers_delivery_destination_and_paycodes = []
+                
+                for customer in customers_to_be_serviced:
+                    for order in orders:
+                        if order.customer.customer_id == customer.customer_id:
+                            res = {
+                                'customer_id':customer.customer_id,
+                                'destination':order.destination_address,
+                                'pay_code':order.pay_code
+                            }
+                            customers_delivery_destination_and_paycodes.append(res)
+                            break
+                
+                totals = []
 
-            for customer in customers_to_be_serviced:
-                full_price = {
-                    'customer_id':customer.customer_id,
-                    'total':0
-                }
-                for order in orders:
-                    if order.customer.customer_id == customer.customer_id:
-                        full_price['total'] += order.food.price
+                for customer in customers_to_be_serviced:
+                    full_price = {
+                        'customer_id':customer.customer_id,
+                        'total':0
+                    }
+                    for order in orders:
+                        if order.customer.customer_id == customer.customer_id:
+                            full_price['total'] += order.food.price * order.count
 
-                totals.append(full_price)
+                    totals.append(full_price)
 
-            ######
+            else:
+
+                customers_to_be_serviced = None
+                customers_to_be_serviced_phone_no = None
+                customers_delivery_destination_and_paycodes = None
+                totals = None
+
+            ##########
 
             personnel_as_customer_orders = OnlineOrder.objects.filter(
                 deliverer=this_perssonel,
@@ -93,49 +101,56 @@ class PerssonelDashboardView(View):
                 customer=None
             )
 
-            
+            if personnel_as_customer_orders:
 
-            all_personnels = Personnel.objects.all().exclude(personnel_code=this_perssonel.personnel_code)
-            personnels_to_be_deleted = []
+                all_personnels = Personnel.objects.all().exclude(personnel_code=this_perssonel.personnel_code)
+                personnels_to_be_deleted = []
 
-            for personnel in all_personnels:
+                for personnel in all_personnels:
 
-                if not personnel_as_customer_orders.filter(personnel_as_customer=personnel).exists():
-                    personnels_to_be_deleted.append(personnel.personnel_code)
-            
-            personnels_to_be_serviced = Personnel.objects.exclude(
-                personnel_code__in=personnels_to_be_deleted
-            ).exclude(personnel_code=this_perssonel.personnel_code)
+                    if not personnel_as_customer_orders.filter(personnel_as_customer=personnel).exists():
+                        personnels_to_be_deleted.append(personnel.personnel_code)
+                
+                personnels_to_be_serviced = Personnel.objects.exclude(
+                    personnel_code__in=personnels_to_be_deleted
+                ).exclude(personnel_code=this_perssonel.personnel_code)
 
-            personnels_to_be_serviced_phone_no = PersonnelPhoneNo.objects.filter(
-                personnel__in=personnels_to_be_serviced
-            )
+                personnels_to_be_serviced_phone_no = PersonnelPhoneNo.objects.filter(
+                    personnel__in=personnels_to_be_serviced
+                )
 
-            personnels_delivery_destination_and_paycodes = []
-            
-            for personnel in personnels_to_be_serviced:
-                for order in personnel_as_customer_orders:
-                    if order.personnel_as_customer.personnel_code == personnel.personnel_code:
-                        res = {
-                            'personnel_code':personnel.personnel_code,
-                            'destination':order.destination_address,
-                            'pay_code':order.pay_code
-                        }
-                        personnels_delivery_destination_and_paycodes.append(res)
-                        break
-            
-            personnel_as_customer_totals = []
+                personnels_delivery_destination_and_paycodes = []
+                
+                for personnel in personnels_to_be_serviced:
+                    for order in personnel_as_customer_orders:
+                        if order.personnel_as_customer.personnel_code == personnel.personnel_code:
+                            res = {
+                                'personnel_code':personnel.personnel_code,
+                                'destination':order.destination_address,
+                                'pay_code':order.pay_code
+                            }
+                            personnels_delivery_destination_and_paycodes.append(res)
+                            break
+                
+                personnel_as_customer_totals = []
 
-            for personnel in personnels_to_be_serviced:
-                full_price = {
-                    'personnel_code':personnel.personnel_code,
-                    'total':0
-                }
-                for order in personnel_as_customer_orders:
-                    if order.personnel_as_customer.personnel_code == personnel.personnel_code:
-                        full_price['total'] += order.food.price
+                for personnel in personnels_to_be_serviced:
+                    full_price = {
+                        'personnel_code':personnel.personnel_code,
+                        'total':0
+                    }
+                    for order in personnel_as_customer_orders:
+                        if order.personnel_as_customer.personnel_code == personnel.personnel_code:
+                            full_price['total'] += order.food.price * order.count
 
-                personnel_as_customer_totals.append(full_price)
+                    personnel_as_customer_totals.append(full_price)
+
+            else:
+                
+                personnels_to_be_serviced = None
+                personnels_to_be_serviced_phone_no = None
+                personnels_delivery_destination_and_paycodes = None
+                personnel_as_customer_totals = None
 
             ############
 
@@ -143,33 +158,42 @@ class PerssonelDashboardView(View):
                 servant=this_perssonel,
                 delivery_status=Order.NOT_DELIVERED
             )
+            print(orders_registered_by_manager)
+            if orders_registered_by_manager:
 
-            all_tables = Table.objects.filter(branch=request.user.personnel.branch)
-            tables_to_be_deleted = []
+                all_tables = Table.objects.filter(branch=request.user.personnel.branch)
+                tables_to_be_deleted = []
 
-            for table in all_tables:
+                for table in all_tables:
 
-                if not orders_registered_by_manager.filter(table=table).exists():
-                    tables_to_be_deleted.append(table.pk)
-            
-            tables_to_be_serviced = Table.objects.exclude(
-                pk__in=tables_to_be_deleted
-            )
-
-            tables_totals = []
-
-            for table in tables_to_be_serviced:
-                full_price = {
-                    'table_id':table.pk,
-                    'total':0
-                }
-                for order in orders_registered_by_manager:
+                    if not orders_registered_by_manager.filter(table=table).exists():
+                        tables_to_be_deleted.append(table.pk)
                 
-                    if order.table.pk == table.pk:
-                        full_price['total'] += order.food.price
+                tables_to_be_serviced = Table.objects.filter(
+                    branch=request.user.personnel.branch
+                ).exclude(
+                    pk__in=tables_to_be_deleted
+                )
 
-                tables_totals.append(full_price)
-            
+                tables_totals = []
+
+                for table in tables_to_be_serviced:
+                    full_price = {
+                        'table_id':table.pk,
+                        'total':0
+                    }
+                    for order in orders_registered_by_manager:
+                    
+                        if order.table.pk == table.pk:
+                            full_price['total'] += order.food.price * order.count
+
+                    tables_totals.append(full_price)
+            else:
+
+                tables_to_be_serviced = None
+                tables_totals = None
+
+
             context = {
                 'orders':orders,
                 'totals':totals,

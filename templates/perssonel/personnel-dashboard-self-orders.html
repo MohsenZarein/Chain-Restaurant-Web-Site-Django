@@ -91,27 +91,24 @@
               <div class="address">
                 <h6>:نام</h6>
                 <p>{{user.first_name}}</p>
-                <h6>نام خانوادگی</h6>
+                <h6>:نام خانوادگی</h6>
                 <p>{{user.last_name}}</p>
-                <h6>ایمیل</h6>
+                <h6>:ایمیل</h6>
                 <p>{{user.email}}</p>
-                <h6>:جنسیت</h6>
-                {% if user.is_staff %}
-                  <p>{{user.personnel.gender}}</p>
+                <h6>:کد پرسنلی</h6>
+                <p>{{user.personnel.personnel_code}}</p>
                 <h6>:آدرس</h6>
-                <span>
-                  <p>{{user.personnel.province}}</p> <p>{{user.personnel.city}}</p>
-                  <p>{{user.personnel.street}}</p> <p>{{user.personnel.alley}}</p>
-                </span>
-                {% else %}
-                <p>{{user.customer.gender}}</p>
-                <h6>:آدرس</h6>
-                <span>
-                  <p>{{user.customer.province}}</p> <p>{{user.customer.city}}</p>
-                  <p>{{user.customer.street}}</p> <p>{{user.customer.alley}}</p>
-                </span>
-                {% endif %}
-
+                  <p>
+                    {{user.personnel.province}}, {{user.personnel.city}}, خیابان {{user.personnel.street}}, کوچه {{user.personnel.alley}}
+                  </p>
+                  {% if user.personnel.supervisor %}
+                    <h6>:ناظر</h6>
+                    <p>{{user.personnel.supervisor.user.first_name}} {{user.personnel.supervisor.user.last_name}}</p>
+                  {% endif %}
+                  <h6>:میزان حقوق</h6>
+                  <p>تومان {{user.personnel.salary}}</p>
+                  <h6>:تاریخ اخرین سرویس دهی</h6>
+                  <p>{{user.personnel.last_service}}</p>
               </div>
             </div>
           </div>

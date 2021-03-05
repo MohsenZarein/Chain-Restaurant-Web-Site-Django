@@ -94,22 +94,13 @@
                 <p>{{user.last_name}}</p>
                 <h6>ایمیل</h6>
                 <p>{{user.email}}</p>
-                <h6>:جنسیت</h6>
-                {% if user.is_staff %}
-                  <p>{{user.personnel.gender}}</p>
+                <h6>:کد مشتری</h6>
+                <p>{{user.customer.customer_id}}</p>
                 <h6>:آدرس</h6>
-                <span>
-                  <p>{{user.personnel.province}}</p> <p>{{user.personnel.city}}</p>
-                  <p>{{user.personnel.street}}</p> <p>{{user.personnel.alley}}</p>
-                </span>
-                {% else %}
-                <p>{{user.customer.gender}}</p>
-                <h6>:آدرس</h6>
-                <span>
-                  <p>{{user.customer.province}}</p> <p>{{user.customer.city}}</p>
-                  <p>{{user.customer.street}}</p> <p>{{user.customer.alley}}</p>
-                </span>
-                {% endif %}
+                  <p>
+                    {{user.customer.province}}, {{user.customer.city}}, خیابان {{user.customer.street}}, کوچه {{user.customer.alley}}
+                  </p>
+              
 
               </div>
             </div>
