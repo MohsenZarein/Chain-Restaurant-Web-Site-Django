@@ -79,6 +79,17 @@
                 </div>
                 <div class="form-row"> 
                   <div class="form-group col-md-12 ">
+                    <label for="phone">شماره تماس</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="شماره تماس جدید"
+                      name="phone"
+                    />
+                  </div>
+                </div>
+                <div class="form-row"> 
+                  <div class="form-group col-md-12 ">
                     <label for="gender">جنسیت</label>
                     <select name="gender" class="form-control">
                       <option value="M">مرد</option>
@@ -96,9 +107,9 @@
               <div class="address">
                 <h6>:نام</h6>
                 <p>{{user.first_name}}</p>
-                <h6>نام خانوادگی</h6>
+                <h6>:نام خانوادگی</h6>
                 <p>{{user.last_name}}</p>
-                <h6>ایمیل</h6>
+                <h6>:ایمیل</h6>
                 <p>{{user.email}}</p>
                 <h6>:کد مشتری</h6>
                 <p>{{user.customer.customer_id}}</p>
@@ -106,8 +117,12 @@
                   <p>
                     {{user.customer.province}}, {{user.customer.city}}, خیابان {{user.customer.street}}, کوچه {{user.customer.alley}}
                   </p>
-              
-
+                {% if phone_numbers %}
+                  <h6>:شماره تماس </h6>
+                  {% for i in phone_numbers %}
+                    <p>  {{i.phone}}   ({{forloop.counter}})  </p>
+                  {% endfor %}
+                {% endif %}
               </div>
             </div>
           </div>

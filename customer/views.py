@@ -115,13 +115,14 @@ class DashboardView(View):
                 branch_code__in=branches_to_be_deleted_delivered
                 )
 
-        
+            phone_numbers = CustomerPhoneNo.objects.filter(customer=request.user.customer)
 
             context = {
                 'orders':orders,
                 'branches_in_not_delivered_status':branches_in_not_delivered_status,
                 'branches_in_is_delivering_status':branches_in_is_delivering_status,
-                'branches_in_delivered_status':branches_in_delivered_status
+                'branches_in_delivered_status':branches_in_delivered_status,
+                'phone_numbers':phone_numbers
             }
 
             return render(request, 'customer/dashboard.html', context)
@@ -200,6 +201,18 @@ class EditInfoView(View):
 
             user = request.user
             customer = request.user.customer
+
+            phone = request.POST.get('phone', default=None)
+            if phone:
+                if not CustomerPhoneNo.objects.filter(phone=phone,customer=customer).exists():
+                    if not CustomerPhoneNo.objects.filter(customer=customer).count() >= 3 :
+                        CustomerPhoneNo.objects.create(
+                            phone=phone,
+                            customer=customer
+                        )
+                    else:
+                        messages.error(request, 'نمیتوانید بیشتر از سه شماره تماس ثبت کنید')
+                        return redirect('customer-dashboard')
             
             first_name = request.POST.get('first_name', default=None)
             if first_name:
