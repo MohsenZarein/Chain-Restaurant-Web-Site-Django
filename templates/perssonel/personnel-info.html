@@ -36,9 +36,21 @@
       </div>
 
       <div class="desserts-descriptions container">
-
         <div id="cakes" class="dessert-category">
           <h2 class="banner">پرسنل</h2>
+          <h6 class="font-weight-bold">فیلتر بر اساس </h6>
+          
+          <a href="javascript:{document.getElementById('filter-by-salary-asc').submit()}" class=" btn btn-primary">دستمزد(صعودی)</a>
+            <form action="{% url 'personnel-info' %}" method="GET" id="filter-by-salary-asc">
+              <input type="hidden" name="salary-filter" value="asc">
+            </form>
+          
+          <a href="javascript:{document.getElementById('filter-by-salary-desc').submit()}" class=" btn btn-primary">دستمزد(نزولی)</a>
+            <form action="{% url 'personnel-info' %}" method="GET" id="filter-by-salary-desc">
+              <input type="hidden" name="salary-filter" value="desc">
+            </form>
+
+            
           {% if personnels %}
             {% for personnel in personnels %}
               <div class="row align-items-center menu-item" style="direction: rtl;">

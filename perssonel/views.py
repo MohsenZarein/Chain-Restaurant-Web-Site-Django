@@ -441,9 +441,27 @@ class PersonnelInfoView(View):
 
         if request.user.is_superuser:
 
-            personnels = Personnel.objects.filter(
-                branch=request.user.personnel.branch
-            ).exclude(personnel_code=request.user.personnel.personnel_code)
+            if request.GET.get('salary-filter', default=None):
+
+                salary_filter = request.GET.get('salary-filter', default=None)
+
+                if salary_filter == "asc":
+
+                    personnels = Personnel.objects.filter(
+                        branch=request.user.personnel.branch
+                    ).exclude(personnel_code=request.user.personnel.personnel_code).order_by('salary')
+                
+                else:
+
+                    personnels = Personnel.objects.filter(
+                        branch=request.user.personnel.branch
+                    ).exclude(personnel_code=request.user.personnel.personnel_code).order_by('-salary')
+
+            else:
+
+                personnels = Personnel.objects.filter(
+                    branch=request.user.personnel.branch
+                ).exclude(personnel_code=request.user.personnel.personnel_code)
 
             paginator = Paginator(personnels,3)
             page_number = request.GET.get('page')
