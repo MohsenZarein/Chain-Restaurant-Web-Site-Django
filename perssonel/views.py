@@ -557,6 +557,9 @@ class AddPersonnelView(View):
                             supervisor=supervisor,
                         )
 
+                    b = request.user.personnel.branch
+                    b.personnel_count += 1
+                    b.save() 
 
                     messages.success(request, 'پرسنل مورد نظر ثبت شد')
                     return redirect('add-personnel')
