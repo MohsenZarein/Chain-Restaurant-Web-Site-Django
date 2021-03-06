@@ -1,0 +1,26 @@
+@font-face {
+	font-family: Vazir;
+	font-style: normal;
+	font-weight: normal;
+	src: url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir.eot');
+	src: url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir.eot?#iefix') format('embedded-opentype'), 
+		 url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir.woff2') format('woff2'), 
+		 url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir.woff') format('woff'), 
+		 url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir.ttf') format('truetype');
+}
+@font-face {
+	font-family: Vazir;
+	font-style: normal;
+	font-weight: bold;
+	src: url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir-Bold.eot');
+	src: url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir-Bold.eot?#iefix') format('embedded-opentype'), 
+		 url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir-Bold.woff2') format('woff2'), 
+		 url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir-Bold.woff') format('woff'), 
+		 url('/home/mohsen/VSCode/chain_restaurant_project/static/webfonts/fonts/Vazir-Bold.ttf') format('truetype');
+}
+
+
+body{
+font-family: 'Vazir', Arial, sans-serif;
+font-weight:normal;
+}

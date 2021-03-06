@@ -93,8 +93,8 @@
                     data-src="{{branch.image.url}}" 
                     alt="Drinks Menu"
                     class="rounded-circle lazyload" style="width: 180px; height: 200px;">
-                  <p class="homepage-menu-description">
-                    {{branch.province}} - {{branch.city}} - {{branch.street}} - {{branch.alley}}
+                  <p class="homepage-menu-description font-weight-bold font-italic">
+                    {{branch.province}} - {{branch.city}} - خیابان {{branch.street}}
                   </p>
                   <a class="btn btn-outline-dark" href="{% url 'branch' branch.branch_code %}" role="button">مشاهده شعبه </a>
                   <br><br>
