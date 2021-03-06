@@ -85,8 +85,6 @@ class Customer(models.Model):
 
 
 
-
-
 class Personnel(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     personnel_code = models.BigIntegerField(primary_key=True, unique=True)
@@ -107,6 +105,10 @@ class Personnel(models.Model):
        
 
 class CustomerPhoneNo(models.Model):
+
+    class Meta:
+        unique_together = (('customer', 'phone'),)
+
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
     phone = models.CharField(max_length=50)
     
@@ -116,14 +118,15 @@ class CustomerPhoneNo(models.Model):
 
 
 class PersonnelPhoneNo(models.Model):
+
+    class Meta:
+        unique_together = (('personnel', 'phone'),)
+
     personnel = models.ForeignKey(Personnel,on_delete=models.CASCADE)
     phone = models.CharField(max_length=50)
 
     def __str__(self):
         return self.phone
-
-
-
 
 
 
