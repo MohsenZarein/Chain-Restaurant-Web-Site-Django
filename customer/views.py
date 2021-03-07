@@ -274,20 +274,15 @@ class DeleteOrderFromBasketView(View):
     
 
     def post(self, request):
+        
+        try:
 
-        if not request.user.is_staff:
-            
-            try:
+            OnlineOrder.objects.get(id=request.POST.get('order_id')).delete()
+            messages.success(request, 'انجام شد')
+            return redirect('customer-dashboard')
 
-                OnlineOrder.objects.get(id=request.POST.get('order_id')).delete()
-                messages.success(request, 'انجام شد')
-                return redirect('customer-dashboard')
+        except exceptions.ObjectDoesNotExist:
 
-            except exceptions.ObjectDoesNotExist:
+            messages.error(request, ' خطا! حذف از سبد انجام نشد')
+            return redirect('customer-dashboard')
 
-                messages.error(request, ' خطا! حذف از سبد انجام نشد')
-                return redirect('customer-dashboard')
-
-        else:
-
-            return HttpResponseBadRequest()

@@ -875,4 +875,32 @@ class AddTableView(View):
 
 
 
+class DeleteOrderFromBasketView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_POST)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+    
+
+    def post(self, request):
+
+        if request.user.is_staff:
+            
+            try:
+
+                OnlineOrder.objects.get(id=request.POST.get('order_id')).delete()
+                messages.success(request, 'انجام شد')
+                return redirect('personnel-dashboard-self-orders')
+
+            except exceptions.ObjectDoesNotExist:
+
+                messages.error(request, ' خطا! حذف از سبد انجام نشد')
+                return redirect('personnel-dashboard-self-orders')
+
+        else:
+
+            return HttpResponseBadRequest()
 

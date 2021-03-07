@@ -174,7 +174,12 @@
                 </div>
               </div>
             </div>
-            
+
+            <a href="javascript:{document.getElementById('delete-from-basket-{{order.id}}').submit()}" class=" btn btn-danger">حذف از سبد</a>
+            <form action="{% url 'delete-order-from-basket-personnel' %}" method="POST" id="delete-from-basket-{{order.id}}">
+              <input type="hidden" name="order_id" value="{{order.id}}">
+            </form>
+
           {% endif %}
         {% endfor %}         
         
