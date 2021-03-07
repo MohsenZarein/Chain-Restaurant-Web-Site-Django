@@ -748,16 +748,12 @@ class StoreView(View):
                 store_code.append(i.store.store_code)
 
             store_product = Store.objects.filter(store_code__in=store_code)
-            print(store_product)
-
             
-
             context = {
                 'store_branch':store_branch,
                 'store_product':store_product
             }
-            print(store_branch)
-            print(store_product)
+            
             return render(request, 'perssonel/stores.html', context)
 
         else:
@@ -903,4 +899,44 @@ class DeleteOrderFromBasketView(View):
         else:
 
             return HttpResponseBadRequest()
+
+
+
+class AddProductView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_POST)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+    
+
+    def post(self, request):
+
+        if request.user.is_staff:
+
+            product = request.POST.get('product')
+            amount = request.POST.get('amount')
+            store_code = request.POST.get('store_code')
+            
+            if Store.objects.filter(store_code=store_code).exists():
+
+                Store.objects.create(
+                    store_code=store_code,
+                    product=product,
+                    amount=amount
+                )
+
+                messages.success(request, 'محصول به انبار {0} اضافه شد'.format(store_code))
+                return redirect('view-stores')
+            
+            else:
+
+                messages.error(request, 'انبار با کد {0} در سیستم ثبت نشده است'.format(store_code))
+                return redirect('view-stores')
+
+        else:
+
+            return HttpResponseForbidden()
 

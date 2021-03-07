@@ -64,6 +64,7 @@
                 <a class="dropdown-item" href="{% url 'register-order-by-manager' %}">ثبت سفارش مشتری</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'view-stores' %}">مشاهده انبار ها</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#AddProductModal">اضافه کردن محصول به انبار</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#AddTableModal">اضافه کردن میز جدید</a>
               </div>
@@ -128,6 +129,38 @@
                 <label for="capacity">:ظرفیت میز</label>
                 <input type="number" name="capacity" class=" form-control mx-auto" required>
             </div>
+            <input type="submit" value="اضافه کردن " class=" btn btn-primary btn-block">
+        </form>
+        </div>
+    </div>
+    </div>
+  </div>
+
+
+  <!-- Modal for add product to store -->
+  <div class="modal fade" id="AddProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLabel">اضافه کردن محصول جدید به انبار</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-footer mx-auto">
+        <form action="{% url 'add-product' %}" method="POST">
+            <div class=" form-group">
+                <label for="product">:نام محصول</label>
+                <input type="text" name="product" class=" form-control mx-auto" required>
+            </div>
+            <div class=" form-group">
+              <label for="amount">:مقدار</label>
+              <input type="number" name="amount" class=" form-control mx-auto" required>
+          </div>
+          <div class=" form-group">
+            <label for="store_code">:کد انبار</label>
+            <input type="number" name="store_code" class=" form-control mx-auto" required>
+        </div>
             <input type="submit" value="اضافه کردن " class=" btn btn-primary btn-block">
         </form>
         </div>
