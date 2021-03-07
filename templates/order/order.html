@@ -86,8 +86,10 @@
               {% endif %}
               <div class="row align-items-center menu-item" style="direction: rtl;">
                 <div class="col-md-3 food-image">
-                  <img 
-                    data-src="{{food.image.url}}"
+                  <img
+                  sizes="(max-width: 250px) 100vw, 250px"
+                  data-src="{{food.image.url}}"
+                  data-srcset="{{food.image.url}} 1x,{{food.image.url}} 2x"
                     alt="Breakfast"
                     class="rounded-circle lazyload">
                     <form action="{% url 'order' branch.branch_code %}" method="POST">
@@ -126,7 +128,9 @@
             <div class="row align-items-center menu-item" style="direction: rtl;">
               <div class="col-md-3 food-image">
                 <img 
-                  data-src="{{food.image.url}}"
+                sizes="(max-width: 250px) 100vw, 250px"
+                data-src="{{food.image.url}}"
+                data-srcset="{{food.image.url}} 1x,{{food.image.url}} 2x"
                   alt="Burger"
                   class="rounded-circle lazyload">
                   <form action="{% url 'order' branch.branch_code %}" method="POST">
@@ -163,9 +167,11 @@
             <hr class="food-horizontal-rule">
             <div class="row align-items-center menu-item" style="direction: rtl;">
               <div class="col-md-3 food-image">
-                <img 
-                  data-src="{{food.image.url}}"
-                  alt="Flavour of Cyprus"
+                <img
+                sizes="(max-width: 250px) 100vw, 250px"
+                data-src="{{food.image.url}}"
+                data-srcset="{{food.image.url}} 1x,{{food.image.url}} 2x"
+                  alt="kebabs"
                   class="rounded-circle lazyload">
                   <form action="{% url 'order' branch.branch_code %}" method="POST">
                     <div class="form-group col-md-5">
@@ -201,9 +207,11 @@
             <hr class="food-horizontal-rule">
             <div class="row align-items-center menu-item" style="direction: rtl;">
               <div class="col-md-3 food-image">
-                <img 
-                  data-src="{{food.image.url}}"
-                  alt="From the grill"
+                <img
+                sizes="(max-width: 250px) 100vw, 250px" 
+                data-src="{{food.image.url}}"
+                data-srcset="{{food.image.url}} 1x,{{food.image.url}} 2x"
+                  alt="gippos"
                   class="rounded-circle lazyload">
                   <form action="{% url 'order' branch.branch_code %}" method="POST">
                     <div class="form-group col-md-5">
@@ -240,8 +248,10 @@
             <div class="row align-items-center menu-item" style="direction: rtl;">
               <div class="col-md-3 food-image">
                 <img 
-                  data-src="{{food.image.url}}"
-                  alt="Pasta"
+                sizes="(max-width: 250px) 100vw, 250px"
+                data-src="{{food.image.url}}"
+                data-srcset="{{food.image.url}} 1x,{{food.image.url}} 2x"
+                  alt="traditional"
                   class="rounded-circle lazyload">
                   <form action="{% url 'order' branch.branch_code %}" method="POST">
                     <div class="form-group col-md-5">
@@ -278,7 +288,9 @@
           <div class="row align-items-center menu-item" style="direction: rtl;">
             <div class="col-md-3 food-image">
               <img 
-                data-src="{{food.image.url}}"
+              sizes="(max-width: 250px) 100vw, 250px"
+              data-src="{{food.image.url}}"
+              data-srcset="{{food.image.url}} 1x,{{food.image.url}} 2x"
                 alt="Pizza"
                 class="rounded-circle lazyload">
                 <form action="{% url 'order' branch.branch_code %}" method="POST">
@@ -316,7 +328,9 @@
               <div class="row align-items-center menu-item" style="direction: rtl;">
                 <div class="col-md-3 food-image">
                   <img 
-                    data-src="{{food.image.url}}"
+                  sizes="(max-width: 250px) 100vw, 250px"
+                  data-src="{{food.image.url}}"
+                  data-srcset="{{food.image.url}} 1x,{{food.image.url}} 2x"
                     alt="Salad"
                     class="rounded-circle lazyload">
                     <form action="{% url 'order' branch.branch_code %}" method="POST">
@@ -355,7 +369,9 @@
               <div class="row align-items-center menu-item" style="direction: rtl;">
                 <div class="col-md-3 food-image">
                   <img 
+                    sizes="(max-width: 250px) 100vw, 250px"
                     data-src="{{food.image.url}}"
+                    data-srcset="{{food.image.url}} 1x,{{food.image.url}} 2x"
                     alt="Seafood"
                     class="rounded-circle lazyload">
                     <form action="{% url 'order' branch.branch_code %}" method="POST">
@@ -393,7 +409,9 @@
             <div class="row align-items-center menu-item" style="direction: rtl;">
               <div class="col-md-3 food-image">
                 <img 
+                  sizes="(max-width: 250px) 100vw, 250px"
                   data-src="{{food.image.url}}"
+                    data-srcset="{{food.image.url}} 1x,{{food.image.url}} 2x"
                   alt="Starter"
                   class="rounded-circle lazyload">
                   <form action="{% url 'order' branch.branch_code %}" method="POST">
