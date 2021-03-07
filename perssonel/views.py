@@ -867,7 +867,48 @@ class AddTableView(View):
         else:
 
             return HttpResponseForbidden()    
+
+
+
+class ChangeTableStatusView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_POST)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+
+    
+    def post(self, request):
+
+        if request.user.is_staff:
+            
+            try:
+
+                table = Table.objects.get(id=request.POST.get('table_id'))
+                if request.POST.get('status') == 'to_full':
+
+                    table.is_empty = False
+                    table.save()
+                    messages.success(request, 'انجام شد')
+                    return redirect('personnel-dashboard-self-orders')
                 
+                else:
+
+                    table.is_empty = True
+                    table.save()
+                    messages.success(request, 'انجام شد')
+                    return redirect('personnel-dashboard-self-orders')
+
+            except exceptions.ObjectDoesNotExist:
+
+                messages.error(request, 'میزی با این کد ثبت نشده است')
+                return redirect('personnel-dashboard-self-orders')
+
+        else:
+
+            return HttpResponseForbidden()
 
 
 

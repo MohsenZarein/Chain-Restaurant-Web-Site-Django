@@ -67,6 +67,8 @@
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#AddProductModal">اضافه کردن محصول به انبار</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#AddTableModal">اضافه کردن میز جدید</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#TableToFullModal">تغییر وضعیت میز به پر</a>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#TableToEmptyModal">تغییر وضعیت میز به خالی</a>
               </div>
             </li>
             {% endif %}
@@ -167,3 +169,53 @@
     </div>
     </div>
   </div>
+
+   <!-- Modal for change the state of table to full -->
+   <div class="modal fade" id="TableToFullModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLabel">تغییر وضعیت میز به پر</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-footer mx-auto">
+        <form action="{% url 'change-table-status' %}" method="POST">
+            <div class=" form-group">
+                <label for="table_id">:کد میز</label>
+                <input type="number" name="table_id" class=" form-control mx-auto" required>
+            </div>
+            <input type="hidden" name="status" value="to_full">
+            <input type="submit" value="ثبت " class=" btn btn-primary btn-block">
+        </form>
+        </div>
+    </div>
+    </div>
+  </div>
+
+
+     <!-- Modal for change the state of table to Empty -->
+     <div class="modal fade" id="TableToEmptyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLabel">تغییر وضعیت میز به خالی</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-footer mx-auto">
+          <form action="{% url 'change-table-status' %}" method="POST">
+              <div class=" form-group">
+                  <label for="table_id">:کد میز</label>
+                  <input type="number" name="table_id" class=" form-control mx-auto" required>
+              </div>
+              <input type="hidden" name="status" value="to_empty">
+              <input type="submit" value="ثبت " class=" btn btn-primary btn-block">
+          </form>
+          </div>
+      </div>
+      </div>
+    </div>
+  
