@@ -6,5 +6,6 @@ urlpatterns = [
     path('dashboard', views.DashboardView.as_view(), name='customer-dashboard'),
     path('resgister-all-orders', views.RegisterAllOrdersView.as_view(), name='resgister-all-orders'),
     path('edit-info', views.EditInfoView.as_view(), name='edit-info-customer'),
+    path('delete-order-from-basket', views.DeleteOrderFromBasketView.as_view(), name='delete-order-from-basket'),
     
 ]

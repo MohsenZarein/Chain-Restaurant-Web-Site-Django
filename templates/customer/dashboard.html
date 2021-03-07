@@ -145,6 +145,7 @@
             <div class="row align-items-center menu-item" style="direction: rtl">
               <div class="col-md-3 food-image">
                 <img
+                  sizes="(max-width: 250px) 100vw, 250px"
                   data-src="{{order.food.image.url}}"
                   data-srcset="
                     {{order.food.image.url}} 1x,
@@ -164,6 +165,11 @@
                 </div>
               </div>
             </div>
+
+            <a href="javascript:{document.getElementById('delete-from-basket-{{order.id}}').submit()}" class=" btn btn-danger">حذف از سبد</a>
+            <form action="{% url 'delete-order-from-basket' %}" method="POST" id="delete-from-basket-{{order.id}}">
+              <input type="hidden" name="order_id" value="{{order.id}}">
+            </form>
             
           {% endif %}
         {% endfor %}         
@@ -209,6 +215,7 @@
         <div class="row align-items-center menu-item" style="direction: rtl">
           <div class="col-md-3 food-image">
             <img
+            sizes="(max-width: 250px) 100vw, 250px"
               data-src="{{order.food.image.url}}"
               data-srcset="
                 {{order.food.image.url}} 1x,
@@ -257,6 +264,7 @@
       <div class="row align-items-center menu-item" style="direction: rtl">
         <div class="col-md-3 food-image">
           <img
+          sizes="(max-width: 250px) 100vw, 250px"
             data-src="{{order.food.image.url}}"
             data-srcset="
               {{order.food.image.url}} 1x,

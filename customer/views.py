@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.http import HttpResponseBadRequest
+from django.core import exceptions
 
 from core.models import Customer, CustomerPhoneNo, OnlineOrder, Branch, Personnel
 
@@ -262,4 +263,31 @@ class EditInfoView(View):
 
 
 
+class DeleteOrderFromBasketView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_POST)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
     
+
+    def post(self, request):
+
+        if not request.user.is_staff:
+            
+            try:
+
+                OnlineOrder.objects.get(id=request.POST.get('order_id')).delete()
+                messages.success(request, 'انجام شد')
+                return redirect('customer-dashboard')
+
+            except exceptions.ObjectDoesNotExist:
+
+                messages.error(request, ' خطا! حذف از سبد انجام نشد')
+                return redirect('customer-dashboard')
+
+        else:
+
+            return HttpResponseBadRequest()
