@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'branches.apps.BranchesConfig',
     'customer.apps.CustomerConfig',
+    'perssonel.apps.PerssonelConfig',
     'pages.apps.PagesConfig',
-    'order.apps.OrderConfig'
+    'order.apps.OrderConfig',
+    'reservation.apps.ReservationConfig',
 ]
 
 MIDDLEWARE = [
