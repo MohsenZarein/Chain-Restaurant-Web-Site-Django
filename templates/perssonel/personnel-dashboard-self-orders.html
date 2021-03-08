@@ -154,12 +154,10 @@
             <div class="row align-items-center menu-item" style="direction: rtl">
               <div class="col-md-3 food-image">
                 <img
-                sizes="(max-width: 250px) 100vw, 250px"
+                
                   data-src="{{order.food.image.url}}"
-                  data-srcset="
-                    {{order.food.image.url}} 1x,
-                    {{order.food.image.url}} 2x"
-                  class="rounded-circle lazyload"
+                
+                  class="rounded-circle lazyload" style="width: 100%;height: 250;"
                 />
               </div>
               <div class="col-md-9">
@@ -189,12 +187,12 @@
             <div class="form-row">
               <div class="form-group col-md-12" >
                 <label for="destination" >مقصد ارسال سفارش</label>
-                <input type="text" name="destination" class="form-control"  placeholder="... آدرس را وارد کنید " required>
+                <input type="text" name="destination" class="form-control"  placeholder="استان - شهر - خیابان - کوچه - پلاک " required>
                 <input type="hidden" value="{{branch.branch_code}}" name="branch_code">
               </div>
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-dark btn-block"  >ثبت نهایی سفارشات</button>
+              <button type="submit" class="btn btn-success btn-block"  >ثبت نهایی سفارشات</button>
             </div>
           </form>
         </div>
@@ -224,12 +222,10 @@
         <div class="row align-items-center menu-item" style="direction: rtl">
           <div class="col-md-3 food-image">
             <img
-            sizes="(max-width: 250px) 100vw, 250px"
+          
               data-src="{{order.food.image.url}}"
-              data-srcset="
-                {{order.food.image.url}} 1x,
-                {{order.food.image.url}} 2x"
-              class="rounded-circle lazyload"
+        
+              class="rounded-circle lazyload" style="width: 100%;height: 250;"
             />
           </div>
           <div class="col-md-9">
@@ -273,12 +269,10 @@
       <div class="row align-items-center menu-item" style="direction: rtl">
         <div class="col-md-3 food-image">
           <img
-          sizes="(max-width: 250px) 100vw, 250px"
+          
             data-src="{{order.food.image.url}}"
-            data-srcset="
-              {{order.food.image.url}} 1x,
-              {{order.food.image.url}} 2x"
-            class="rounded-circle lazyload"
+          
+            class="rounded-circle lazyload" style="width: 100%;height: 250;"
           />
         </div>
         <div class="col-md-9">
