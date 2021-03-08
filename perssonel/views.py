@@ -12,7 +12,7 @@ from django.core import exceptions
 
 from core.models import (OnlineOrder, Order, Personnel, Customer,
                          CustomerPhoneNo, PersonnelPhoneNo, Branch, Food,
-                         Table, Store, StoreBranch)
+                         Table, Store, StoreBranch, FoodForm)
                           
 from uuid import uuid4
 from datetime import datetime
@@ -977,6 +977,40 @@ class AddProductView(View):
                 messages.error(request, 'انبار با کد {0} در سیستم ثبت نشده است'.format(store_code))
                 return redirect('view-stores')
 
+        else:
+
+            return HttpResponseForbidden()
+
+
+
+class AddFoodToMenuView(View):
+
+    @method_decorator(login_required)
+    @method_decorator(require_POST)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+
+        return super().dispatch(*args, **kwargs)
+
+
+    def post(self, request):
+
+        if request.user.is_staff:
+
+            form = FoodForm(request.POST, request.FILES)
+
+            if form.is_valid():
+
+                form.save()
+
+                messages.success(request, 'ذخیره شد')
+                return redirect('personnel-dashboard-self-orders')
+            
+            else:
+                
+                messages.error(request, 'خطا! ذخیره نشد')
+                return redirect('personnel-dashboard-self-orders')
+        
         else:
 
             return HttpResponseForbidden()
